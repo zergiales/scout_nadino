@@ -1,0 +1,25 @@
+# Node / Angular / Analog
+node_modules/
+dist/
+.angular/
+.nx/
+.vite/
+coverage/
+
+# Java / Maven
+target/
+*.class
+.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+
+# Sistema y entorno
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
