@@ -8,7 +8,7 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 | Conócenos | `/conocenos` | P0 | Historia del grupo, método scout, kraal, asociación (Scouts de Guadalajara / MSC), dónde está el local | `content/paginas/conocenos.md` |
 | Secciones (listado) | `/secciones` | P0 | Tarjeta por sección con edades y color | `content/secciones/*.md` |
 | Sección (detalle) | `/secciones/:slug` | P0 | Qué hacen, edades, horario de reuniones, fotos | `content/secciones/<slug>.md` |
-| Inscripción | `/inscripcion` | P0 | Cómo apuntarse, plazos, cuotas, documentación, enlace al formulario externo | `content/paginas/inscripcion.md` |
+| Preinscripción | `/preinscripcion` | P0 | Formulario propio: adulto de contacto, correo, teléfono, año de nacimiento del educando y observaciones. Más plazos, cuotas y documentación | `content/paginas/preinscripcion.md` + formulario |
 | Contacto | `/contacto` | P0 | Correo, dirección del local, horario, redes sociales. Sin formulario en fase 1 | `content/paginas/contacto.md` |
 | Aviso legal | `/legal/aviso-legal` | P0 | Obligatorio | Markdown |
 | Privacidad | `/legal/privacidad` | P0 | Obligatorio (RGPD) | Markdown |
@@ -18,16 +18,28 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 | Noticias (listado) | `/noticias` | P1 | Crónicas de actividades y campamentos, paginadas | `content/noticias/*.md` |
 | Noticia (detalle) | `/noticias/:slug` | P1 | Texto, fotos (solo con autorización de imagen), fecha, sección | `content/noticias/<slug>.md` |
 | Eventos / Calendario | `/eventos` | P1 | Próximos eventos en lista (no rejilla de calendario: es más accesible) | `content/eventos/*.md` |
+| Jota-Joti | `/eventos/joti-2026` | P0 | Fechas, JID del grupo, cómo participar y enlaces. Una página por edición | `content/eventos/joti-<año>.md` |
 | Documentos | `/documentos` | P1 | Autorizaciones, circulares, listas de material (PDF) | `content/documentos/*.md` + `public/documentos/` |
 | Área privada | `/privado/**` | P2 | Login de monitores, gestión | `auth-service` + API |
 | Formulario de contacto | `/contacto` | P2 | Formulario real con envío | API |
 
 ## Navegación principal (máx. 6 elementos)
 
-Inicio · Conócenos · Secciones · Noticias · Eventos · Inscripción
-Contacto, Documentos y los enlaces legales van en el **footer**. «Inscripción» puede destacarse como botón.
+Inicio · Conócenos · Secciones · Jota-Joti · Contacto · **Preinscripción** (destacada como botón)
+
+Los enlaces legales y los que vayan apareciendo van en el **footer**. Está en el tope de 6, así que **para meter algo hay que sacar algo**: cuando existan Noticias y Eventos, el Jota-Joti deja su sitio y pasa a vivir dentro de Eventos.
+
+Para comparar, el menú de la web antigua tenía 8 entradas: Inicio · Joti 2025 · Pre-Inscripción · Conócenos · Descargas · Contacto · Calendario · Downloads. `Downloads` era un duplicado de `Descargas`, y un evento de un año concreto no debería ocupar un hueco permanente.
+
+## Dónde está el grupo
+
+Parroquia de la Santa Cruz, Av. de la Constitución 1, 19200 Azuqueca de Henares (Guadalajara). Coordenadas `40.564693, -3.267574`, sacadas del mapa de la web antigua.
+
+El **correo del grupo está pendiente**: en la web antigua figura como imagen, así que no se puede copiar ni leerlo con un lector de pantalla. También faltan el horario de reuniones y las redes sociales.
 
 ## Secciones (confirmar nombres y edades con el kraal)
+
+**Aviso:** las edades de abajo **no coinciden** con lo que dice el formulario de la web antigua, que habla de «Exploradores y Pioneros (12 a 17)» y «Castores y Lobatos (6 a 11)». Hay que resolverlo antes de publicar la portada y las páginas de sección, porque aparecen en las dos.
 
 | Slug | Nombre | Edades orientativas |
 |---|---|---|
