@@ -19,7 +19,19 @@ export default defineConfig(({ mode }) => ({
         highlighter: 'shiki',
       },
       prerender: {
-        routes: ['/'],
+        // Cada ruta nueva hay que añadirla aquí o no se prerenderizará.
+        routes: [
+          '/',
+          '/conocenos',
+          '/secciones',
+          '/preinscripcion',
+          '/contacto',
+          '/eventos/joti-2026',
+          '/legal/aviso-legal',
+          '/legal/privacidad',
+          '/legal/cookies',
+          '/legal/accesibilidad',
+        ],
       },
     }),
     tailwindcss()

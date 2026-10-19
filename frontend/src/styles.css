@@ -1,3 +1,43 @@
 @import 'tailwindcss';
 
-/* Los tokens del grupo y de cada sección se definen en la tarea 0.2 con @theme. */
+/*
+  Tokens del grupo (tarea 0.2).
+
+  ATENCIÓN: los valores de abajo son PROVISIONALES. Están elegidos solo para
+  cumplir el contraste mínimo (4,5:1 en texto, 3:1 en componentes) mientras el
+  kraal confirme los colores oficiales del grupo y de cada sección. Cuando los
+  confirme, se cambian aquí y en ningún otro sitio: ningún componente usa
+  valores sueltos.
+*/
+@theme {
+  /* Marca */
+  --color-marca: #1b4332;
+  --color-marca-claro: #2d6a4f;
+  --color-marca-suave: #eef5f1;
+  --color-acento: #b45309;
+
+  /* Secciones por edades */
+  --color-castores: #c2410c;
+  --color-lobatos: #a16207;
+  --color-scouts: #166534;
+  --color-pioneros: #1d4ed8;
+  --color-rutas: #b91c1c;
+
+  /* Texto */
+  --color-tinta: #1a1a1a;
+  --color-tinta-suave: #4a4a4a;
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--color-tinta);
+}
+
+/*
+  Foco visible en todo el sitio. Es criterio de aceptación (WCAG 2.4.7), no
+  decoración: no lo quites para «limpiar» el diseño.
+*/
+:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
