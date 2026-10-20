@@ -3,11 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "blog": {
+    "nadino": {
       "projectType": "application",
       "root": ".",
       "sourceRoot": "src",
-      "prefix": "blog",
+      "prefix": "nadino",
       "architect": {
         "build": {
           "builder": "@analogjs/platform:vite",
@@ -32,16 +32,16 @@
           "builder": "@analogjs/platform:vite-dev-server",
           "defaultConfiguration": "development",
           "options": {
-            "buildTarget": "blog:build",
+            "buildTarget": "nadino:build",
             "port": 5173
           },
           "configurations": {
             "development": {
-              "buildTarget": "blog:build:development",
+              "buildTarget": "nadino:build:development",
               "hmr": true
             },
             "production": {
-              "buildTarget": "blog:build:production"
+              "buildTarget": "nadino:build:production"
             }
           }
         },

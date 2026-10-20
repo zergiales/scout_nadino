@@ -2,22 +2,55 @@
 
 Web pública del Grupo Scout Nadino, prerenderizada a HTML estático. Las decisiones están en [`docs/adr/0001-arquitectura-frontend.md`](../docs/adr/0001-arquitectura-frontend.md).
 
-## Generar el proyecto (Sprint 0, tarea 0.1)
+Stack real: Angular 22, Analog 2.8, Tailwind 4, TypeScript 6, Vite 8, vitest 5 y shiki para el resaltado de código en Markdown.
 
-Desde la raíz del repo:
+## Arrancar
+
+Requisito: **Node 24 LTS** (Angular 22 exige `^22.22.3 || ^24.15.0 || >=26.0.0`) con npm 11.
 
 ```bash
-# Borra este README temporalmente si el asistente pide carpeta vacía
-npm create analog@latest frontend
-# Elige: plantilla "Blog/Content" (incluye Markdown) y Tailwind: sí
 cd frontend
 npm install
-npm run dev
+npm run dev        # servidor de desarrollo
 ```
 
-> Antes de generar, comprueba que la versión de Analog es compatible con **Angular 22**. Si el generador crea una versión anterior, actualiza con `ng update @angular/core@22 @angular/cli@22`.
+Otros comandos:
 
-Después del generador, crea las carpetas de la estructura objetivo y vuelve a poner este README.
+```bash
+npm run build          # → dist/analog/public/ (HTML prerenderizado)
+npm run preview        # sirve ese dist/ en localhost:4173, para ver el resultado real del build
+npm test -- --run      # tests una pasada; sin --run queda en modo watch
+npm run ng             # Angular CLI local
+```
+
+El `preview` que traía la plantilla apuntaba a una salida de servidor que el modo estático no genera. Ahora es `vite preview --outDir dist/analog/public`, que sirve el HTML prerenderizado sin añadir ninguna dependencia.
+
+## Configuración
+
+En `vite.config.ts`:
+
+- **`static: true`** — prerenderiza sin generar servidor Nitro. Es lo que mantiene el hosting gratuito y sin mantenimiento.
+- **`prerender.routes`** — las 10 rutas actuales. **Cada ruta nueva hay que añadirla aquí**, o existirá en desarrollo y no en el build. Es el fallo más fácil de cometer.
+- El resaltador de Markdown (`shiki`) y el plugin de Tailwind.
+
+## Qué existe hoy
+
+- **Layout completo** en `src/app/layout/`: `header.ts` (navegación y menú móvil) y `footer.ts`. El shell con el skip link está en `app.ts`.
+- **10 páginas** en `src/app/pages/`: portada, Conócenos, Secciones, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404.
+- **Tokens provisionales** en `src/styles.css`: elegidos solo para cumplir contraste. Los oficiales del grupo están pendientes del kraal (tarea 0.2).
+- Un componente en `shared/ui/`: `aviso-borrador`.
+- `src/content/` **vacía**.
+
+**Deuda consciente:** como `core/services` todavía no existe (tarea 0.4), el texto de esas páginas está escrito a mano dentro de los componentes. Eso contradice la regla 1 de más abajo, y es temporal: cuando existan los servicios, el texto se mueve a `src/content`. Cada página afectada lleva un `<app-aviso-borrador>` visible para que no se quede así.
+
+`core/` y el resto de `shared/ui/` se crean conforme avanza el Sprint 0 (ver [`docs/frontend/plan-trabajo.md`](../docs/frontend/plan-trabajo.md)).
+
+## Decisiones de implementación que conviene no deshacer
+
+- **El menú móvil no usa el CDK**, sino un `signal` con `aria-expanded` y cierre con Escape. Para cinco enlaces no hace falta overlay ni foco atrapado.
+- **El mapa de Contacto es de OpenStreetMap, no de Google Maps**: el de Google instala cookies y obligaría a un banner de consentimiento en todo el sitio. La dirección va además en texto, porque un mapa incrustado no lo lee un lector de pantalla.
+- **El formulario de preinscripción no envía nada todavía** y lo dice en pantalla. Cuando se decida el destino, el envío va en un servicio de `core/services`, no en el componente.
+- **El formulario pide los datos mínimos** a propósito: ni nombre del menor, ni fecha exacta de nacimiento, ni domicilio. Ver la Enmienda 1 del ADR antes de añadir campos.
 
 ## Estructura objetivo
 
@@ -78,12 +111,12 @@ frontend/
 │   │
 │   └── styles.css                # Tailwind + tokens (@theme): colores del grupo y de secciones
 │
-└── vite.config.ts                # (generado) prerender: lista de rutas + rutas de content/
+└── vite.config.ts                # prerender: lista de rutas + rutas de content/
 ```
 
 ## Reglas
 
-1. **Las páginas no leen contenido directamente**: siempre `inject(NoticiasService)` etc. Así el cambio a la API de Spring Boot solo toca `core/services`.
+1. **Las páginas no leen contenido directamente**: siempre `inject(NoticiasService)` etc. Así el cambio a la API de Spring Boot solo toca `core/services`. Ojo: los ejemplos de Analog llaman a `injectContentFiles()` / `injectContent()` dentro de la página; aquí esas llamadas van en el servicio.
 2. **`shared/ui` no conoce los servicios**: recibe datos por `input()` y emite eventos por `output()`.
 3. **Colores y tamaños solo desde tokens** de `styles.css`. Nada de `#990000` sueltos.
 4. **Componentes standalone + signals**, sin NgModules.

@@ -12,7 +12,7 @@
     "build": "vite build",
     "watch": "vite build --watch",
     "test": "vitest",
-    "preview": "node dist/analog/server/index.mjs"
+    "preview": "vite preview --outDir dist/analog/public"
   },
   "private": true,
   "dependencies": {
