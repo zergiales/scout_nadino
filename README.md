@@ -18,7 +18,7 @@ scout_nadino/
 
 | Fase | Qué | Estado |
 |---|---|---|
-| 1 | Web pública estática: Inicio, Conócenos, Secciones, Inscripción, Contacto, Legal | En curso |
+| 1 | Web pública estática: Inicio, Conócenos, Ramas, Inscripción, Contacto, Legal | En curso |
 | 2 | Panel de edición para el kraal (Decap CMS sobre el Markdown) | Pendiente |
 | 3 | Backend: `auth-service` (login de monitores) y API para inscripciones/área privada | Pendiente |
 

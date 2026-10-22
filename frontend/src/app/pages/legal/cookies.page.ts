@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
-
-import { AvisoBorrador } from '../../shared/ui/aviso-borrador';
 
 export const routeMeta: RouteMeta = {
   title: 'Cookies · Grupo Scout Nadino',
@@ -9,14 +8,14 @@ export const routeMeta: RouteMeta = {
 
 @Component({
   selector: 'app-cookies',
-  imports: [AvisoBorrador],
+  imports: [RouterLink],
   template: `
     <h1 class="m-0 text-3xl font-bold text-marca">Cookies</h1>
 
-    <app-aviso-borrador>
-      Hoy la web no usa cookies ni analítica. Si sigue así, esta página lo
-      declara y no hace falta banner de consentimiento.
-    </app-aviso-borrador>
+    <p class="mt-4 max-w-2xl text-lg text-tinta-suave">
+      Estamos preparando este texto. Si mientras tanto tienes cualquier duda,
+      <a routerLink="/contacto" class="font-bold text-marca">escríbenos</a>.
+    </p>
   `,
 })
 export default class CookiesPage {}

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 El frontend compila a HTML estático: `npm run build` genera **10 rutas prerenderizadas**. `backend/` sigue siendo solo un README reservado para la fase 3.
 
-Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 10 páginas (portada, Conócenos, Secciones, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css` y un componente en `shared/ui/`.
+Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 10 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css` y un componente en `shared/ui/` (`mapa-conexiones`).
 
 Lo que **todavía no**: `core/` entera (modelos, servicios, SEO), el resto de `shared/ui/`, el CI y el despliegue. `src/content/` está vacía. Antes de dar por hecho un fichero o un comando, comprueba que existe.
 
@@ -47,7 +47,7 @@ La decisión clave que explica casi todo el diseño: **la capa de servicios de `
 
 Esto es fácil de incumplir sin darse cuenta: los ejemplos de Analog llaman a `injectContentFiles()` / `injectContent()` **dentro de la página**. Aquí esas llamadas van en el servicio de `core/services`, y la página solo inyecta el servicio.
 
-**Deuda consciente, no permiso.** Las páginas actuales llevan su texto escrito a mano en el componente, porque se adelantaron a la tarea 0.4 para poder ver la web funcionando. Eso se arregla moviendo el texto a `src/content` en cuanto existan los servicios; no es el patrón a imitar. Cada página afectada lleva un `<app-aviso-borrador>` visible, y ese aviso se borra cuando entra el contenido de verdad.
+**Deuda consciente, no permiso.** Las páginas actuales llevan su texto escrito a mano en el componente, porque se adelantaron a la tarea 0.4 para poder ver la web funcionando. Eso se arregla moviendo el texto a `src/content` en cuanto existan los servicios; no es el patrón a imitar. Las páginas ya no llevan un aviso visible de borrador (el grupo lo quitó porque desentonaba): que una página parezca terminada no significa que lo esté. Los textos pendientes del kraal siguen siendo provisionales, y las cuatro páginas legales solo tienen un párrafo de «estamos preparando este texto».
 
 Consecuencia operativa: **la web pública no depende del backend** y debe funcionar con él caído o inexistente. En la fase 1 el contacto es correo y dirección (sin formulario) y la inscripción es un enlace a un formulario externo.
 
@@ -82,7 +82,7 @@ El árbol de carpetas objetivo, el formato del frontmatter de cada tipo de conte
 
 El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona. Hechas: 0.1 (proyecto) y 0.3 (layout). A medias: 0.2 (tokens provisionales), 0.5 (un componente) y 0.6 (títulos sí, meta description no). **Lo siguiente es 0.4**, modelos y servicios, porque es lo que desbloquea mover el contenido fuera de los componentes. Quedan además el CI (0.7) y el despliegue (0.8).
 
-Prioridades: **P0** = MVP (Inicio, Conócenos, Secciones listado y detalle, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
+Prioridades: **P0** = MVP (Inicio, Conócenos, Ramas, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
 
 **Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, correo del grupo (en la web antigua está puesto como imagen), horario de reuniones, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
 

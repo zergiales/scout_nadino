@@ -21,23 +21,36 @@ interface EnlaceNav {
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive],
   host: {
+    // El sticky va en el host y no en <header>: un elemento sticky solo se
+    // mueve dentro de su padre, y el host mide lo mismo que la cabecera.
+    class: 'sticky top-0 z-40 block',
     '(document:keydown.escape)': 'cerrar()',
   },
   template: `
-    <header class="border-b-4 border-marca bg-white">
+    <header
+      class="border-b-2 border-marca bg-white/75 backdrop-blur-md"
+    >
       <div
         class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4"
       >
         <a
           routerLink="/"
-          class="text-lg font-bold text-marca no-underline hover:underline"
+          class="flex items-center gap-3 text-lg font-bold text-marca no-underline hover:underline"
         >
+          <!-- alt vacío: el texto del enlace ya lo nombra -->
+          <img
+            src="/img/logo-nadino.jpeg"
+            alt=""
+            width="56"
+            height="56"
+            class="h-14 w-14 rounded-md"
+          />
           Grupo Scout Nadino
         </a>
 
         <button
           type="button"
-          class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca md:hidden"
+          class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca transition-colors hover:bg-marca hover:text-white md:hidden"
           [attr.aria-expanded]="abierto()"
           aria-controls="menu-principal"
           (click)="alternar()"
@@ -48,7 +61,7 @@ interface EnlaceNav {
         <nav
           id="menu-principal"
           aria-label="Navegación principal"
-          class="w-full md:block md:w-auto"
+          class="w-full max-md:motion-safe:animate-menu-entra md:block md:w-auto"
           [class.hidden]="!abierto()"
         >
           <ul
@@ -58,10 +71,10 @@ interface EnlaceNav {
               <li>
                 <a
                   [routerLink]="enlace.ruta"
-                  routerLinkActive="bg-marca-suave font-bold"
+                  routerLinkActive="bg-marca-suave font-bold after:scale-x-100"
                   [routerLinkActiveOptions]="{ exact: !!enlace.exacta }"
                   ariaCurrentWhenActive="page"
-                  class="block rounded px-3 py-2 text-marca no-underline hover:bg-marca-suave hover:underline"
+                  class="relative block rounded px-3 py-2 text-marca no-underline transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-marca after:transition-transform after:duration-300 hover:bg-marca-suave hover:after:scale-x-100"
                   (click)="cerrar()"
                 >
                   {{ enlace.texto }}
@@ -73,7 +86,7 @@ interface EnlaceNav {
                 routerLink="/preinscripcion"
                 routerLinkActive="underline"
                 ariaCurrentWhenActive="page"
-                class="block rounded bg-acento px-3 py-2 font-semibold text-white no-underline hover:underline"
+                class="block rounded bg-marca px-3 py-2 font-semibold text-white no-underline shadow-sm transition duration-200 hover:bg-marca-oscuro hover:shadow-md motion-safe:hover:-translate-y-0.5"
                 (click)="cerrar()"
               >
                 Preinscripción
@@ -91,7 +104,7 @@ export class Header {
   protected readonly enlaces: EnlaceNav[] = [
     { ruta: '/', texto: 'Inicio', exacta: true },
     { ruta: '/conocenos', texto: 'Conócenos' },
-    { ruta: '/secciones', texto: 'Secciones' },
+    { ruta: '/ramas', texto: 'Ramas' },
     { ruta: '/eventos/joti-2026', texto: 'Jota-Joti' },
     { ruta: '/contacto', texto: 'Contacto' },
   ];

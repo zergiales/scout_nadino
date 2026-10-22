@@ -6,8 +6,7 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 |---|---|---|---|---|
 | Inicio | `/` | P0 | Presentación breve, secciones por edades, próximos eventos (si hay), llamada a inscribirse | Markdown + servicios |
 | Conócenos | `/conocenos` | P0 | Historia del grupo, método scout, kraal, asociación (Scouts de Guadalajara / MSC), dónde está el local | `content/paginas/conocenos.md` |
-| Secciones (listado) | `/secciones` | P0 | Tarjeta por sección con edades y color | `content/secciones/*.md` |
-| Sección (detalle) | `/secciones/:slug` | P0 | Qué hacen, edades, horario de reuniones, fotos | `content/secciones/<slug>.md` |
+| Ramas | `/ramas` | P0 | Un desplegable por rama: edades, color, qué hacen, horario de reuniones. Sin página de detalle por rama | `content/secciones/*.md` |
 | Preinscripción | `/preinscripcion` | P0 | Formulario propio: adulto de contacto, correo, teléfono, año de nacimiento del educando y observaciones. Más plazos, cuotas y documentación | `content/paginas/preinscripcion.md` + formulario |
 | Contacto | `/contacto` | P0 | Correo, dirección del local, horario, redes sociales. Sin formulario en fase 1 | `content/paginas/contacto.md` |
 | Aviso legal | `/legal/aviso-legal` | P0 | Obligatorio | Markdown |
@@ -25,7 +24,7 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 
 ## Navegación principal (máx. 6 elementos)
 
-Inicio · Conócenos · Secciones · Jota-Joti · Contacto · **Preinscripción** (destacada como botón)
+Inicio · Conócenos · Ramas · Jota-Joti · Contacto · **Preinscripción** (destacada como botón)
 
 Los enlaces legales y los que vayan apareciendo van en el **footer**. Está en el tope de 6, así que **para meter algo hay que sacar algo**: cuando existan Noticias y Eventos, el Jota-Joti deja su sitio y pasa a vivir dentro de Eventos.
 

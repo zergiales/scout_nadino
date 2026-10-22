@@ -26,7 +26,7 @@ Estado: **✅** hecho · **⏳** empezado, falta algo · sin marca, sin empezar.
 | ⏳ 0.2 | Tailwind con tokens: colores del grupo y de cada sección, tipografía, espaciados | Tokens en `src/styles.css`, nada de colores sueltos en componentes. Los que hay son **provisionales**, elegidos solo por contraste: faltan los oficiales (Bloque D) |
 | ⏳ 0.3 | Layout: skip link, header, navegación (con menú móvil vía CDK), footer | Navegable con teclado y lector de pantalla; sin scroll horizontal a 320px. Hecho, pero con un `signal` en vez del CDK, y sin comprobar todavía con lector de pantalla ni a 320 px |
 | 0.4 | Modelos y servicios vacíos (`core/models`, `core/services`) | Interfaces `Noticia`, `Evento`, `Seccion`, `Documento` definidas |
-| ⏳ 0.5 | Componentes base en `shared/ui`: botón, tarjeta, encabezado de sección, imagen responsive | Con estado de foco visible y contraste ≥ 4,5:1. Existe `aviso-borrador`; faltan los cuatro de la lista |
+| ⏳ 0.5 | Componentes base en `shared/ui`: botón, tarjeta, encabezado de sección, imagen responsive | Con estado de foco visible y contraste ≥ 4,5:1. Existe `mapa-conexiones`; faltan los cuatro de la lista |
 | ⏳ 0.6 | SEO por página: `<title>`, meta description, `lang="es"` | Cada ruta con título único. Hechos los títulos (`routeMeta`) y el `lang="es"`; faltan meta description y Open Graph |
 | 0.7 | CI: lint + build + axe + Lighthouse (umbral de accesibilidad ≥ 95) | La PR falla si baja la accesibilidad |
 | 0.8 | Despliegue en Cloudflare Pages/Netlify con preview por PR | URL de preview en cada PR |

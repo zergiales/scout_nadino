@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
-
-import { AvisoBorrador } from '../../shared/ui/aviso-borrador';
 
 export const routeMeta: RouteMeta = {
   title: 'Accesibilidad · Grupo Scout Nadino',
@@ -9,16 +8,16 @@ export const routeMeta: RouteMeta = {
 
 @Component({
   selector: 'app-accesibilidad',
-  imports: [AvisoBorrador],
+  imports: [RouterLink],
   template: `
     <h1 class="m-0 text-3xl font-bold text-marca">
       Declaración de accesibilidad
     </h1>
 
-    <app-aviso-borrador>
-      Texto pendiente. Se escribe al final, cuando las auditorías de axe y
-      Lighthouse de la tarea 0.7 digan el nivel real de conformidad.
-    </app-aviso-borrador>
+    <p class="mt-4 max-w-2xl text-lg text-tinta-suave">
+      Estamos preparando este texto. Si mientras tanto tienes cualquier duda,
+      <a routerLink="/contacto" class="font-bold text-marca">escríbenos</a>.
+    </p>
   `,
 })
 export default class AccesibilidadPage {}
