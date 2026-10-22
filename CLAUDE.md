@@ -65,7 +65,7 @@ Todo vive en `frontend/vite.config.ts`:
 
 - **El menú móvil no usa el CDK**, sino un `signal` con `aria-expanded` y cierre con Escape. Para cinco enlaces no hace falta overlay ni foco atrapado, y evita una dependencia (enmienda la decisión 2 del ADR).
 - **El mapa de Contacto es de OpenStreetMap, no de Google Maps.** El iframe de Google instala cookies: obligaría a un banner de consentimiento en todo el sitio y contradiría la página de cookies.
-- **El formulario de preinscripción pide los datos mínimos** y no envía nada todavía. No añadas campos sin leer la Enmienda 1 del ADR: el recorte de datos (sin nombre del menor, sin fecha exacta, sin domicilio) es justo lo que hace defendible tener formulario propio en una web estática.
+- **El formulario de preinscripción pide los datos mínimos** y no envía nada todavía. No añadas campos sin leer la Enmienda 1 del ADR-0001 y el [ADR-0002](docs/adr/0002-destino-de-las-preinscripciones.md), que decide el canal de envío: el recorte de datos (sin nombre del menor, sin fecha exacta, sin domicilio) es justo lo que hace defendible tener formulario propio en una web estática.
 - **La navegación está en el tope de 6 elementos.** Para meter uno hay que sacar otro; la tabla manda está en `docs/frontend/paginas.md`.
 
 El árbol de carpetas objetivo, el formato del frontmatter de cada tipo de contenido y las reglas de estilo están en [`frontend/README.md`](frontend/README.md). El razonamiento y las alternativas descartadas (SPA + backend desde el día 1, WordPress), en [`docs/adr/0001-arquitectura-frontend.md`](docs/adr/0001-arquitectura-frontend.md).
@@ -73,7 +73,7 @@ El árbol de carpetas objetivo, el formato del frontmatter de cada tipo de conte
 ## Convenciones vinculantes
 
 - **Componentes standalone + signals.** Sin NgModules.
-- **Colores y tamaños solo desde los tokens `@theme` de `src/styles.css`.** Nada de valores sueltos como `#990000` en los componentes. Hay tokens del grupo y uno por sección (castores, lobatos, scouts, pioneros, rutas). Ese fichero está hoy casi vacío a propósito: los tokens son la tarea 0.2.
+- **Colores y tamaños solo desde los tokens `@theme` de `src/styles.css`.** Nada de valores sueltos como `#990000` en los componentes. Hay tokens del grupo y uno por sección (castores, lobatos, scouts, pioneros, rutas). Los valores que hay ahora son **provisionales**, elegidos solo por contraste: los oficiales del grupo siguen pendientes del kraal (tarea 0.2).
 - **Accesibilidad = criterio de aceptación, no mejora posterior.** La web actual se rehace precisamente porque la auditoría encontró 14 incidencias WCAG 2.1 AA. Objetivo: WCAG 2.1 AA, axe sin errores, Lighthouse accesibilidad ≥ 95, un solo `<h1>` por página, foco visible, sin scroll horizontal a 320 px, legible con zoom 200 %, contraste ≥ 4,5:1 en texto y ≥ 3:1 en componentes. La checklist completa está en la "Definición de hecho" de [`docs/frontend/plan-trabajo.md`](docs/frontend/plan-trabajo.md) y en la plantilla de issue.
 - **Datos de menores (RGPD).** Fotos de educandos solo con autorización de imagen firmada; ante la duda, fotos de grupo de espaldas o sin caras. Nunca nombres completos, colegios ni otros datos personales de educandos. Todas las imágenes con `alt` descriptivo, o `alt=""` si son decorativas.
 - **Restricción de fondo:** el grupo es voluntariado con kraal rotatorio y presupuesto ≈ 0 € salvo el dominio. Al elegir entre opciones, prefiere la que se mantenga sola: menos dependencias, menos servidores, menos cosas que caducan.

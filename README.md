@@ -25,6 +25,7 @@ scout_nadino/
 ## Empezar
 
 - Arquitectura: [`docs/adr/0001-arquitectura-frontend.md`](docs/adr/0001-arquitectura-frontend.md)
+- A dónde llegan las preinscripciones: [`docs/adr/0002-destino-de-las-preinscripciones.md`](docs/adr/0002-destino-de-las-preinscripciones.md)
 - Qué páginas hay: [`docs/frontend/paginas.md`](docs/frontend/paginas.md)
 - Por dónde empezar y cómo repartir: [`docs/frontend/plan-trabajo.md`](docs/frontend/plan-trabajo.md)
 - Montar el frontend: [`frontend/README.md`](frontend/README.md)
