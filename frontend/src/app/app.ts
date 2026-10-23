@@ -15,7 +15,10 @@ import { Footer } from './layout/footer';
   // compilan como módulo virtual y vitest no sabe resolverlos, así que el
   // layout va con utilidades de Tailwind como el resto del proyecto.
   template: `
-    <div class="flex min-h-dvh flex-col">
+    <!-- overflow-x-clip: los fondos difuminados de las páginas no deben
+         provocar scroll horizontal. clip, no hidden, para no romper el
+         sticky de la cabecera. -->
+    <div class="flex min-h-dvh flex-col overflow-x-clip">
       <a
         href="#contenido"
         class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-marca focus:px-4 focus:py-2 focus:font-semibold focus:text-white"

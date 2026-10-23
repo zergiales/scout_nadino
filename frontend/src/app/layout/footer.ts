@@ -60,7 +60,65 @@ import { RouterLink } from '@angular/router';
           </ul>
         </nav>
       </div>
+
+      <!-- Asociaciones a las que pertenece el grupo, centradas. El título solo
+           lo oye un lector de pantalla; el alt de cada logo nombra a dónde
+           lleva el enlace. -->
+      <div class="mx-auto max-w-5xl border-t border-marca/20 px-4 py-6">
+        <p id="titulo-asociaciones" class="sr-only">Formamos parte de</p>
+        <ul
+          aria-labelledby="titulo-asociaciones"
+          class="m-0 flex list-none flex-wrap items-center justify-center gap-x-10 gap-y-6 p-0"
+        >
+          @for (asociacion of asociaciones; track asociacion.url) {
+            <li>
+              <a
+                [href]="asociacion.url"
+                rel="noopener noreferrer"
+                class="block rounded-lg transition duration-300 ease-suave hover:opacity-80 motion-safe:hover:-translate-y-0.5"
+              >
+                <img
+                  [src]="asociacion.logo"
+                  [alt]="asociacion.nombre"
+                  [width]="asociacion.ancho"
+                  [height]="asociacion.alto"
+                  [class]="asociacion.clase"
+                  loading="lazy"
+                />
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
     </footer>
   `,
 })
-export class Footer {}
+export class Footer {
+  // Logos descargados de la web de cada asociación (public/img/asociaciones).
+  protected readonly asociaciones = [
+    {
+      nombre: 'Scouts MSC, Movimiento Scout Católico',
+      url: 'https://scouts.es/',
+      logo: '/img/asociaciones/msc.png',
+      ancho: 724,
+      alto: 134,
+      clase: 'h-9 w-auto',
+    },
+    {
+      nombre: 'Federación de Scouts Católicos de Castilla-La Mancha',
+      url: 'https://www.fsc-clm.org/',
+      logo: '/img/asociaciones/fsc-clm.png',
+      ancho: 270,
+      alto: 270,
+      clase: 'h-16 w-auto',
+    },
+    {
+      nombre: 'Scouts de Guadalajara',
+      url: 'https://www.scoutsdeguadalajara.es/',
+      logo: '/img/asociaciones/scouts-guadalajara.png',
+      ancho: 600,
+      alto: 183,
+      clase: 'h-11 w-auto',
+    },
+  ];
+}

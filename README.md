@@ -18,13 +18,14 @@ scout_nadino/
 
 | Fase | Qué | Estado |
 |---|---|---|
-| 1 | Web pública estática: Inicio, Conócenos, Secciones, Inscripción, Contacto, Legal | En curso |
+| 1 | Web pública estática: Inicio, Conócenos, Ramas, Inscripción, Contacto, Legal | En curso |
 | 2 | Panel de edición para el kraal (Decap CMS sobre el Markdown) | Pendiente |
 | 3 | Backend: `auth-service` (login de monitores) y API para inscripciones/área privada | Pendiente |
 
 ## Empezar
 
 - Arquitectura: [`docs/adr/0001-arquitectura-frontend.md`](docs/adr/0001-arquitectura-frontend.md)
+- A dónde llegan las preinscripciones: [`docs/adr/0002-destino-de-las-preinscripciones.md`](docs/adr/0002-destino-de-las-preinscripciones.md)
 - Qué páginas hay: [`docs/frontend/paginas.md`](docs/frontend/paginas.md)
 - Por dónde empezar y cómo repartir: [`docs/frontend/plan-trabajo.md`](docs/frontend/plan-trabajo.md)
 - Montar el frontend: [`frontend/README.md`](frontend/README.md)

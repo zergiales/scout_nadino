@@ -10,22 +10,115 @@
   valores sueltos.
 */
 @theme {
-  /* Marca */
-  --color-marca: #1b4332;
-  --color-marca-claro: #2d6a4f;
-  --color-marca-suave: #eef5f1;
-  --color-acento: #b45309;
+  /* Marca: morado sacado del logo (public/img/logo-nadino.jpeg).
+     Contraste sobre blanco 8,0:1; sobre marca-suave 7,1:1. */
+  --color-marca: #811aa4;
+  --color-marca-claro: #9b3dbd;
+  --color-marca-suave: #f6eefa;
+  --color-marca-oscuro: #4a0e5f;
 
-  /* Secciones por edades */
-  --color-castores: #c2410c;
-  --color-lobatos: #a16207;
-  --color-scouts: #166534;
-  --color-pioneros: #1d4ed8;
-  --color-rutas: #b91c1c;
+  /* Acento dorado. El blanco no se lee encima (1,7:1): el texto sobre acento
+     va en marca-oscuro (8,3:1 sobre acento, 9,6:1 sobre acento-claro). */
+  --color-acento: #f2c230;
+  --color-acento-claro: #f7d55c;
+
+  /* Apertura del menú móvil */
+  --animate-menu-entra: menu-entra 180ms ease-out;
+
+  @keyframes menu-entra {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Curva suave para hovers y apariciones */
+  --ease-suave: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Líneas de conexión del mapa del Jota-Joti */
+  --animate-flujo: flujo 1.2s linear infinite;
+
+  @keyframes flujo {
+    to {
+      stroke-dashoffset: -20;
+    }
+  }
+
+  /* Secciones por edades. Son colores de fondo: el texto encima va en
+     tinta (5,0:1 en pioneros, el peor caso). El blanco NO se lee sobre ellos. */
+  --color-castores: #f39c4a;
+  --color-lobatos: #f7d046;
+  --color-scouts: #9cc9e8;
+  --color-pioneros: #e2604f;
+  --color-rutas: #6bbf73;
 
   /* Texto */
   --color-tinta: #1a1a1a;
   --color-tinta-suave: #4a4a4a;
+
+  /* Formularios. El borde de un campo es un componente: ≥ 3:1 (3,97:1). */
+  --color-borde: #8a7a94;
+  --color-error: #b42318;
+  --color-error-suave: #fef3f2;
+}
+
+/*
+  Aparición al hacer scroll: el elemento sube y se aclara al entrar en
+  pantalla. Usa scroll-driven animations, sin JavaScript. Donde el navegador
+  no las soporta, o si el usuario pide menos movimiento, el elemento
+  simplemente se ve: nunca queda oculto.
+
+  No se combina con transform en el mismo elemento (la animación lo pisa):
+  el hover va en un hijo.
+*/
+@utility aparece-al-scroll {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: aparece linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+/*
+  Desplegable (<details>) que se abre y cierra con altura animada. Donde el
+  navegador no soporta ::details-content, se abre de golpe, que también vale.
+*/
+@utility desplegable {
+  interpolate-size: allow-keywords;
+
+  &::details-content {
+    block-size: 0;
+    overflow: hidden;
+  }
+
+  &[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::details-content {
+      transition:
+        block-size 0.45s var(--ease-suave),
+        content-visibility 0.45s allow-discrete;
+    }
+  }
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 body {
@@ -36,8 +129,40 @@ body {
 /*
   Foco visible en todo el sitio. Es criterio de aceptación (WCAG 2.4.7), no
   decoración: no lo quites para «limpiar» el diseño.
+
+  Va en la capa base para que una utilidad pueda cambiar el color donde el
+  morado no se vería (focus-visible:outline-white sobre fondo morado).
 */
-:focus-visible {
-  outline: 3px solid var(--color-acento);
-  outline-offset: 2px;
+@layer base {
+  /* La cabecera es fija: sin esto, un ancla o el foco quedarían debajo de
+     ella (WCAG 2.4.11). */
+  html {
+    scroll-padding-top: 7rem;
+  }
+
+  /* Cursor normal sobre el texto (no el de escribir), mano en lo que se
+     pulsa y cursor de texto solo donde de verdad se escribe. Tailwind 4 deja
+     los <button> con el cursor por defecto. */
+  body {
+    cursor: default;
+  }
+
+  button:not(:disabled),
+  summary,
+  label,
+  select,
+  input[type='checkbox'],
+  input[type='radio'] {
+    cursor: pointer;
+  }
+
+  input:not([type='checkbox'], [type='radio']),
+  textarea {
+    cursor: text;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-marca);
+    outline-offset: 2px;
+  }
 }

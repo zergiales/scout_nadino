@@ -36,12 +36,12 @@ En `vite.config.ts`:
 ## Qué existe hoy
 
 - **Layout completo** en `src/app/layout/`: `header.ts` (navegación y menú móvil) y `footer.ts`. El shell con el skip link está en `app.ts`.
-- **10 páginas** en `src/app/pages/`: portada, Conócenos, Secciones, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404.
+- **10 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404.
 - **Tokens provisionales** en `src/styles.css`: elegidos solo para cumplir contraste. Los oficiales del grupo están pendientes del kraal (tarea 0.2).
-- Un componente en `shared/ui/`: `aviso-borrador`.
+- Un componente en `shared/ui/`: `mapa-conexiones` (la ilustración del Jota-Joti).
 - `src/content/` **vacía**.
 
-**Deuda consciente:** como `core/services` todavía no existe (tarea 0.4), el texto de esas páginas está escrito a mano dentro de los componentes. Eso contradice la regla 1 de más abajo, y es temporal: cuando existan los servicios, el texto se mueve a `src/content`. Cada página afectada lleva un `<app-aviso-borrador>` visible para que no se quede así.
+**Deuda consciente:** como `core/services` todavía no existe (tarea 0.4), el texto de esas páginas está escrito a mano dentro de los componentes. Eso contradice la regla 1 de más abajo, y es temporal: cuando existan los servicios, el texto se mueve a `src/content`. Las páginas no lo avisan a la vista, así que no des una página por terminada solo porque lo parezca.
 
 `core/` y el resto de `shared/ui/` se crean conforme avanza el Sprint 0 (ver [`docs/frontend/plan-trabajo.md`](../docs/frontend/plan-trabajo.md)).
 
@@ -87,9 +87,7 @@ frontend/
 │   │   └── pages/                # Rutas de Analog (un fichero = una ruta)
 │   │       ├── index.page.ts                 → /
 │   │       ├── conocenos.page.ts             → /conocenos
-│   │       ├── secciones/
-│   │       │   ├── index.page.ts             → /secciones
-│   │       │   └── [slug].page.ts            → /secciones/:slug
+│   │       ├── ramas.page.ts                 → /ramas (un desplegable por rama)
 │   │       ├── noticias/
 │   │       │   ├── index.page.ts             → /noticias
 │   │       │   └── [slug].page.ts            → /noticias/:slug

@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => ({
         routes: [
           '/',
           '/conocenos',
-          '/secciones',
+          '/ramas',
           '/preinscripcion',
           '/contacto',
           '/eventos/joti-2026',
