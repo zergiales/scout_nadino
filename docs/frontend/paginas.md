@@ -17,7 +17,7 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 | Noticias | — (sección de `/`) | P1 | **Sin página propia** (decisión del grupo, 25/10/2026): las tres últimas salen en la portada, debajo de la foto, con fecha, rama y resumen; el texto completo se despliega dentro de la tarjeta («Leer la noticia»). Sin listado ni detalle | `content/noticias/*.md` |
 | Calendario | `/eventos` | P1 | Próximos eventos y ya celebrados, en lista (no rejilla de calendario: es más accesible) | `content/eventos/*.md` |
 | Jota-Joti | `/eventos/joti-2026` | P0 | Fechas, JID del grupo, cómo participar y enlaces. Una página por edición | `content/eventos/joti-<año>.md` |
-| Documentos | `/documentos` | P1 | Autorizaciones, circulares, listas de material (PDF) | `public/documentos/` + lista en la página; fase 3: base de datos vía API |
+| Documentos | `/documentos` | P1 | Autorizaciones, circulares, listas de material (PDF) y, al final, «Fotos»: enlaces a las carpetas de Google Drive de cada actividad (`content/albumes/`) | `public/documentos/` + lista en la página; fase 3: base de datos vía API |
 | Acceso al backoffice | `/acceso` | P0 (puerta) / P2 (login real) | Formulario de usuario y contraseña que manda a `/backoffice/index.html` (Sveltia CMS, fuera de Angular). **Hoy no comprueba la contraseña**: protege la cuenta de GitHub que pide el backoffice. En la fase 3, `AccesoService` llamará a `auth-service` (ADR-0003, enmienda 2). `noindex` | — (fase 3: `auth-service`) |
 | Área privada | `/privado/**` | P2 | Gestión para monitores, tras el login | `auth-service` + API |
 | Formulario de contacto | `/contacto` | P2 | Formulario real con envío | API |

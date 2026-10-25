@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { AlbumesService } from './albumes.service';
 import { fecha } from './contenido';
 import { DocumentosService } from './documentos.service';
 import { EventosService } from './eventos.service';
@@ -97,6 +98,16 @@ describe('Servicios de contenido', () => {
     expect(servicio.cuerpo(slug)).toContain('<strong>ruta hasta el arco romano</strong>');
     expect(servicio.cuerpo(slug)).not.toContain('titulo:');
     expect(servicio.cuerpo('no-existe')).toBe('');
+  });
+
+  it('AlbumesService: cada álbum tiene título y un enlace https', () => {
+    const albumes = TestBed.inject(AlbumesService).todos();
+
+    expect(albumes.length).toBeGreaterThan(0);
+    for (const album of albumes) {
+      expect(album.titulo).not.toBe('');
+      expect(album.enlace).toMatch(/^https:\/\//);
+    }
   });
 
   it('fecha(): una fecha sin comillas en el YAML llega como Date y sale igual', () => {

@@ -182,6 +182,32 @@ collections:
           - { label: Autorizaciones, value: autorizaciones }
           - { label: Acampadas y material, value: actividades }
 
+  - name: albumes
+    label: Fotos
+    label_singular: Álbum
+    description: >-
+      Enlaces a carpetas de Google Drive con las fotos de cada actividad. Salen
+      en la página de Documentos. Ojo: quien tenga el enlace ve las fotos.
+    folder: frontend/src/content/albumes
+    create: true
+    identifier_field: titulo
+    slug: '{{slug}}'
+    summary: '{{titulo}}'
+    fields:
+      - label: Título
+        name: titulo
+        widget: string
+        hint: Con el año y la actividad, p. ej. «Campamento 2026 · Fuente la Teja».
+      - { label: Descripción, name: descripcion, widget: text }
+      - label: Enlace a la carpeta
+        name: enlace
+        widget: string
+        pattern: ['^https://', 'Tiene que ser un enlace que empiece por https://']
+        hint: >-
+          En Google Drive, «Compartir» → «Copiar enlace». Al estar en la web,
+          cualquiera con el enlace verá las fotos: súbelas solo con autorización
+          de imagen de todos los que salen.
+
   - name: secciones
     label: Ramas
     label_singular: Rama
