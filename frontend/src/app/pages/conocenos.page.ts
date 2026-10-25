@@ -51,7 +51,7 @@ export const routeMeta: RouteMeta = {
         @for (idea of metodo; track idea.titulo) {
           <li class="aparece-al-scroll">
             <div
-              class="flex h-full gap-4 rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg motion-safe:hover:-translate-y-1"
+              class="flex h-full gap-4 rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg motion-safe:hover:-translate-y-1"
             >
               <span
                 class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-marca-suave"
@@ -94,7 +94,7 @@ export const routeMeta: RouteMeta = {
 
       <dl class="mt-6 grid gap-4 md:grid-cols-2">
         <div
-          class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-sm font-bold tracking-wide text-marca uppercase">
             A qué pertenecemos
@@ -104,7 +104,7 @@ export const routeMeta: RouteMeta = {
           </dd>
         </div>
         <div
-          class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-sm font-bold tracking-wide text-marca uppercase">
             Dónde nos reunimos
@@ -117,7 +117,7 @@ export const routeMeta: RouteMeta = {
           </dd>
         </div>
         <div
-          class="rounded-3xl border border-dashed border-marca/40 bg-white/40 p-6 backdrop-blur-xl"
+          class="rounded-3xl border border-dashed border-marca/40 bg-superficie/40 p-6 backdrop-blur-xl"
         >
           <dt class="text-sm font-bold tracking-wide text-marca uppercase">
             Nuestra historia
@@ -125,7 +125,7 @@ export const routeMeta: RouteMeta = {
           <dd class="mt-2 mb-0 text-tinta-suave">Pendiente del kraal.</dd>
         </div>
         <div
-          class="rounded-3xl border border-dashed border-marca/40 bg-white/40 p-6 backdrop-blur-xl"
+          class="rounded-3xl border border-dashed border-marca/40 bg-superficie/40 p-6 backdrop-blur-xl"
         >
           <dt class="text-sm font-bold tracking-wide text-marca uppercase">
             El kraal
@@ -157,8 +157,8 @@ export const routeMeta: RouteMeta = {
         routerLink="/preinscripcion"
         class="group rounded-3xl bg-marca p-6 no-underline shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-1"
       >
-        <span class="block text-xl font-bold text-white">Hacer la preinscripción</span>
-        <span class="mt-1 block text-white/90">
+        <span class="block text-xl font-bold text-sobre-marca">Hacer la preinscripción</span>
+        <span class="mt-1 block text-sobre-marca/90">
           Un formulario corto y sin compromiso.
         </span>
       </a>

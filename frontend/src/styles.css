@@ -8,8 +8,14 @@
   kraal confirme los colores oficiales del grupo y de cada sección. Cuando los
   confirme, se cambian aquí y en ningún otro sitio: ningún componente usa
   valores sueltos.
+
+  «static»: Tailwind emite TODAS las variables, no solo las que encuentra
+  escritas en el código. Hace falta porque algunas solo se nombran desde el
+  contenido: el color de cada rama es var(--color-<slug>) y el slug sale de
+  src/content/secciones/, que Tailwind no lee. Sin esto, las ramas que no se
+  nombran en ningún .ts (lobatos, pioneros) se quedaban sin color.
 */
-@theme {
+@theme static {
   /* Marca: morado sacado del logo (public/img/logo-nadino.jpeg).
      Contraste sobre blanco 8,0:1; sobre marca-suave 7,1:1. */
   --color-marca: #811aa4;
@@ -38,6 +44,42 @@
 
   /* Curva suave para hovers y apariciones */
   --ease-suave: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Se pasa un poco y vuelve: para cosas que «saltan», como el ojo */
+  --ease-rebote: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Entrada de una tarjeta al cargar la página */
+  --animate-tarjeta-entra: tarjeta-entra 700ms var(--ease-suave) both;
+
+  @keyframes tarjeta-entra {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.96);
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  /* Sacudida de un formulario que se envía con errores */
+  --animate-sacude: sacude 450ms ease-in-out;
+
+  @keyframes sacude {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20%,
+    60% {
+      transform: translateX(-8px);
+    }
+    40%,
+    80% {
+      transform: translateX(8px);
+    }
+  }
 
   /* Líneas de conexión del mapa del Jota-Joti */
   --animate-flujo: flujo 1.2s linear infinite;
@@ -64,7 +106,60 @@
   --color-borde: #8a7a94;
   --color-error: #b42318;
   --color-error-suave: #fef3f2;
+
+  /* Fondos. «superficie» es el cristal de tarjetas, campos y cabecera;
+     «sobre-marca», el texto e iconos encima de un fondo de marca. En el tema
+     claro los dos son blanco, pero no son lo mismo: en el oscuro uno se
+     oscurece y el otro también, por motivos distintos (ver más abajo). */
+  --color-fondo: #ffffff;
+  --color-superficie: #ffffff;
+  --color-sobre-marca: #ffffff;
 }
+
+/*
+  Tema oscuro: el de por defecto. index.html trae data-tema="oscuro" en
+  <html> y un script en línea lo cambia antes de pintar si el usuario eligió
+  el claro (localStorage «tema»), así no hay destello blanco al cargar. El
+  botón de la cabecera alterna entre los dos.
+
+  Solo se redefinen tokens: ningún componente sabe en qué tema está. La marca
+  pasa a un morado claro para leerse sobre fondo oscuro, y por eso el texto
+  encima de ella (sobre-marca) pasa a oscuro. Contrastes (provisionales,
+  como el resto de tokens):
+    marca sobre fondo 9,2:1 · sobre superficie 8,4:1 · sobre marca-suave 7,3:1
+    sobre-marca sobre marca 8,9:1 · sobre marca-oscuro (hover) 11:1
+    tinta-suave sobre superficie 9:1 · borde sobre superficie 5,2:1
+*/
+:root {
+  color-scheme: light;
+}
+
+:root[data-tema='oscuro'] {
+  color-scheme: dark;
+
+  --color-fondo: #140b1a;
+  --color-superficie: #241530;
+  --color-sobre-marca: #1a0b22;
+
+  --color-marca: #d9a3f0;
+  --color-marca-claro: #b779d6;
+  --color-marca-suave: #34203f;
+  /* En claro es el morado más oscuro; aquí, el más claro: se usa para el
+     hover de los botones y tiene que separarse de «marca» en el mismo
+     sentido en que se separa el fondo. */
+  --color-marca-oscuro: #ecc8fb;
+
+  --color-tinta: #f3eef6;
+  --color-tinta-suave: #c9bdd2;
+
+  --color-borde: #9a87a8;
+  --color-error: #ff8a80;
+  --color-error-suave: #3a1416;
+}
+
+/* Para lo poco que no se arregla con tokens (p. ej. logos con fondo
+   transparente y letras negras): oscuro:bg-white */
+@custom-variant oscuro (&:where([data-tema='oscuro'], [data-tema='oscuro'] *));
 
 /*
   Aparición al hacer scroll: el elemento sube y se aclara al entrar en
@@ -121,8 +216,119 @@
   }
 }
 
+/*
+  Ojo de «mostrar contraseña» (acceso.page.ts). Cerrado: los dos párpados se
+  doblan hacia abajo y se juntan en una curva con pestañas. Abierto: se
+  separan con un pequeño rebote y aparece el iris. transform-box hace que cada
+  párpado gire sobre la línea media del ojo (y = 12) y no sobre la esquina
+  del SVG. Sin movimiento reducido, cambia de golpe.
+*/
+.ojo :is(.parpado, .iris, .pestanas) {
+  transform-box: fill-box;
+}
+.ojo .parpado-sup {
+  transform-origin: bottom;
+  transform: scaleY(-0.45);
+}
+.ojo .parpado-inf {
+  transform-origin: top;
+  transform: scaleY(0.45);
+}
+.ojo .iris {
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+}
+.ojo[data-abierto='true'] .parpado {
+  transform: none;
+}
+.ojo[data-abierto='true'] .iris {
+  transform: none;
+  opacity: 1;
+}
+.ojo[data-abierto='true'] .pestanas {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ojo .parpado {
+    transition: transform 380ms var(--ease-rebote);
+  }
+  /* Al abrir, el iris sale cuando ya se separan los párpados; al cerrar,
+     se va antes de que bajen. */
+  .ojo .iris {
+    transition:
+      transform 320ms var(--ease-rebote),
+      opacity 200ms ease-out;
+  }
+  .ojo[data-abierto='true'] .iris {
+    transition-delay: 90ms;
+  }
+  .ojo .pestanas {
+    transition: opacity 200ms ease-out;
+  }
+
+  .tarjeta-entra {
+    animation: var(--animate-tarjeta-entra);
+  }
+  .sacude {
+    animation: var(--animate-sacude);
+  }
+}
+
+/*
+  Texto completo de una noticia (index.page.ts). Es HTML que sale del .md
+  escrito en el backoffice, así que no lleva clases: se estiliza por
+  etiqueta. El editor no ofrece títulos (ver public/backoffice/config.yml),
+  para no romper la jerarquía de la página; si alguno llega a mano, se ve
+  como un subtítulo pequeño.
+*/
+.texto-noticia {
+  color: var(--color-tinta-suave);
+
+  & > * + * {
+    margin-top: 0.75rem;
+  }
+  & p {
+    margin-bottom: 0;
+  }
+  & strong {
+    color: var(--color-tinta);
+  }
+  & a {
+    color: var(--color-marca);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.25rem;
+  }
+  & ul {
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & blockquote {
+    border-left: 4px solid var(--color-marca);
+    padding-left: 0.75rem;
+    font-style: italic;
+  }
+  & img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-xl);
+  }
+  & :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-tinta);
+  }
+}
+
 body {
-  background-color: #ffffff;
+  background-color: var(--color-fondo);
   color: var(--color-tinta);
 }
 

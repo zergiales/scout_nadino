@@ -1,0 +1,203 @@
+# Configuración del backoffice (Sveltia CMS). Ver docs/adr/0003-cms-y-acceso-de-editores.md
+# y el formato de cada tipo de contenido en frontend/README.md.
+#
+# Las rutas son relativas a la raíz del repositorio (donde está .git), no a
+# frontend/: por eso todas empiezan por frontend/.
+#
+# Los nombres de los campos (titulo, fecha…) son los del frontmatter que leen
+# los servicios de frontend/src/app/core/services. Si cambias uno aquí, cámbialo
+# también allí.
+
+backend:
+  name: github
+  repo: zergiales/scout_nadino
+  branch: main
+  # Pendiente (ADR-0003): la URL del autenticador OAuth en Cloudflare.
+  # base_url: https://…workers.dev
+
+# En local (localhost) no hace falta login: Sveltia ofrece «Trabajar con el
+# repositorio local» y escribe directamente en la carpeta del proyecto.
+
+app_title: Backoffice · Grupo Scout Nadino
+logo:
+  src: /img/logo-nadino.jpeg
+publish_mode: simple
+
+# Fotos subidas sin carpeta propia. Las de noticias van a img/noticias.
+media_folder: frontend/public/img/subidas
+public_folder: /img/subidas
+
+media_libraries:
+  default:
+    config:
+      # Toda foto que se suba se convierte a WebP y se reduce a 1600 px de
+      # ancho: las del móvil pesan varios MB. Se pierden los metadatos (GPS).
+      transformations:
+        raster_image:
+          format: webp
+          quality: 80
+          width: 1600
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: noticias
+    label: Noticias
+    label_singular: Noticia
+    description: >-
+      Salen las tres últimas en la portada, debajo de la foto del grupo. Las
+      fotos de educandos, solo si tienen la autorización de imagen firmada.
+    folder: frontend/src/content/noticias
+    create: true
+    identifier_field: titulo
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{fecha}} · {{titulo}}'
+    sortable_fields: [fecha, titulo]
+    media_folder: /frontend/public/img/noticias
+    public_folder: /img/noticias
+    fields:
+      - label: Título
+        name: titulo
+        widget: string
+      - label: Fecha
+        name: fecha
+        widget: datetime
+        type: date
+        format: YYYY-MM-DD
+        default: '{{now}}'
+      - label: Rama
+        name: seccion
+        widget: select
+        required: false
+        hint: Déjalo vacío si es de todo el grupo.
+        options:
+          - { label: Castores, value: castores }
+          - { label: Lobatos, value: lobatos }
+          - { label: Exploradores, value: scouts }
+          - { label: Pioneros, value: pioneros }
+          - { label: Rutas, value: rutas }
+      - label: Resumen
+        name: resumen
+        widget: text
+        hint: Dos o tres frases. Es lo que se ve en la portada sin abrir la noticia.
+      - label: Foto de portada
+        name: portada
+        widget: image
+        required: false
+        hint: Opcional. Solo con autorización de imagen de todos los que salen; si no, de espaldas o sin caras.
+      - label: Descripción de la foto
+        name: portadaAlt
+        widget: string
+        required: false
+        hint: >-
+          Obligatoria si pones foto. Qué se ve, para quien no puede verla
+          (p. ej. «Lobatos montando una tienda en un pinar»). Nunca nombres.
+      - label: Texto completo
+        name: body
+        widget: markdown
+        required: false
+        hint: Se lee en la portada al pulsar «Leer la noticia». Puedes poner negrita, listas, enlaces y fotos.
+        # Sin títulos: dentro de la tarjeta romperían la jerarquía de la página.
+        buttons: [bold, italic, link, bulleted-list, numbered-list, quote]
+        editor_components: [image]
+
+  - name: eventos
+    label: Calendario
+    label_singular: Evento
+    description: Los eventos pasados se ocultan solos.
+    folder: frontend/src/content/eventos
+    create: true
+    identifier_field: titulo
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{inicio}} · {{titulo}}'
+    sortable_fields: [inicio, titulo]
+    fields:
+      - { label: Título, name: titulo, widget: string }
+      - label: Primer día
+        name: inicio
+        widget: datetime
+        type: date
+        format: YYYY-MM-DD
+      - label: Último día
+        name: fin
+        widget: datetime
+        type: date
+        format: YYYY-MM-DD
+        required: false
+        hint: Solo si dura más de un día.
+      - { label: Lugar, name: lugar, widget: string, required: false }
+      - label: Ramas
+        name: ramas
+        widget: select
+        multiple: true
+        required: false
+        hint: Déjalo vacío si va todo el grupo.
+        options:
+          - { label: Castores, value: castores }
+          - { label: Lobatos, value: lobatos }
+          - { label: Exploradores, value: scouts }
+          - { label: Pioneros, value: pioneros }
+          - { label: Rutas, value: rutas }
+      - { label: Descripción, name: descripcion, widget: text }
+      - label: Página propia
+        name: enlace
+        widget: string
+        required: false
+        hint: Casi nunca hace falta. Solo si el evento tiene página en la web, como /eventos/joti-2026.
+
+  - name: documentos
+    label: Documentos
+    label_singular: Documento
+    description: Solo plantillas en blanco. Nunca un documento ya relleno o firmado.
+    folder: frontend/src/content/documentos
+    create: true
+    identifier_field: titulo
+    slug: '{{slug}}'
+    summary: '{{categoria}} · {{titulo}}'
+    fields:
+      - { label: Título, name: titulo, widget: string }
+      - { label: Descripción, name: descripcion, widget: text }
+      - label: Fichero
+        name: fichero
+        widget: file
+        media_folder: /frontend/public/documentos
+        public_folder: /documentos
+        hint: Nombre en minúsculas y con guiones, sin espacios, tildes ni versiones (-v2).
+      - label: Formato
+        name: formato
+        widget: select
+        default: PDF
+        options: [PDF, Word]
+      - label: Tamaño
+        name: tamano
+        widget: string
+        hint: Como aparece en el ordenador, p. ej. «120 KB».
+      - label: Categoría
+        name: categoria
+        widget: select
+        options:
+          - { label: Inscripción, value: inscripcion }
+          - { label: Autorizaciones, value: autorizaciones }
+          - { label: Acampadas y material, value: actividades }
+
+  - name: secciones
+    label: Ramas
+    label_singular: Rama
+    description: Los textos de cada rama. Las ramas no se crean ni se borran desde aquí.
+    folder: frontend/src/content/secciones
+    create: false
+    delete: false
+    identifier_field: nombre
+    summary: '{{nombre}} ({{edades}} años)'
+    sortable_fields: [orden]
+    fields:
+      - { label: Nombre, name: nombre, widget: string }
+      - { label: Edades, name: edades, widget: string, hint: 'Por ejemplo, «8 a 11».' }
+      - { label: Orden, name: orden, widget: number, value_type: int, hint: De la más pequeña (1) a la mayor (5). }
+      - { label: Resumen, name: resumen, widget: text }
+      - label: Qué hacen
+        name: queHacen
+        widget: list
+        field: { label: Actividad, name: actividad, widget: string }

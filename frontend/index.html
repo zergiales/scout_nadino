@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-tema="oscuro">
   <head>
     <meta charset="utf-8" />
+    <!-- Tema: oscuro por defecto. Si el usuario eligió el claro, se cambia
+         aquí, antes de pintar, para que no haya destello. Va en línea a
+         propósito: un fichero aparte llegaría tarde. Ver styles.css. -->
+    <script>
+      try {
+        var tema = localStorage.getItem('tema');
+        if (tema === 'claro' || tema === 'oscuro') {
+          document.documentElement.dataset.tema = tema;
+        }
+      } catch (e) {}
+    </script>
     <title>Grupo Scout Nadino</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
