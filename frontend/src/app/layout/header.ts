@@ -11,8 +11,11 @@ interface EnlaceNav {
 /**
  * Cabecera con la navegación principal. La lista de enlaces es la de
  * `docs/frontend/paginas.md` (máximo 6). El Jota-Joti salió al entrar
- * Calendario y ahora se llega a él desde allí; para meter Noticias habrá que
- * sacar otro enlace.
+ * Calendario y ahora se llega a él desde allí; Contacto salió al entrar
+ * Documentos y sigue en el pie. Para meter Noticias habrá que sacar otro.
+ *
+ * «Acceso al blog» no cuenta como enlace del menú: va aparte, como botón
+ * con icono, y lleva a la pantalla de login del blog.
  *
  * El menú móvil es un toggle propio en vez del CDK: no hace falta overlay ni
  * foco atrapado para una lista de cuatro enlaces, y así no se añade una
@@ -49,15 +52,42 @@ interface EnlaceNav {
           Grupo Scout Nadino
         </a>
 
-        <button
-          type="button"
-          class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca transition-colors hover:bg-marca hover:text-white md:hidden"
-          [attr.aria-expanded]="abierto()"
-          aria-controls="menu-principal"
-          (click)="alternar()"
-        >
-          {{ abierto() ? 'Cerrar' : 'Menú' }}
-        </button>
+        <!-- Acceso y botón de menú. En escritorio va al final, a la derecha
+             del menú; en móvil, junto al botón para que siempre se vea. -->
+        <div class="flex items-center gap-2 md:order-last">
+          <a
+            routerLink="/acceso"
+            routerLinkActive="bg-marca text-white"
+            ariaCurrentWhenActive="page"
+            class="inline-flex items-center gap-2 rounded-full border-2 border-marca px-3 py-2 text-sm font-semibold text-marca no-underline transition-colors duration-300 hover:bg-marca hover:text-white"
+            (click)="cerrar()"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-5 w-5 fill-none stroke-current"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <path d="M12 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8" />
+            </svg>
+            <span class="max-lg:sr-only">Acceso</span>
+            <span class="sr-only">al blog</span>
+          </a>
+
+          <button
+            type="button"
+            class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca transition-colors hover:bg-marca hover:text-white md:hidden"
+            [attr.aria-expanded]="abierto()"
+            aria-controls="menu-principal"
+            (click)="alternar()"
+          >
+            {{ abierto() ? 'Cerrar' : 'Menú' }}
+          </button>
+        </div>
 
         <nav
           id="menu-principal"
@@ -107,7 +137,7 @@ export class Header {
     { ruta: '/conocenos', texto: 'Conócenos' },
     { ruta: '/ramas', texto: 'Ramas' },
     { ruta: '/eventos', texto: 'Calendario' },
-    { ruta: '/contacto', texto: 'Contacto' },
+    { ruta: '/documentos', texto: 'Documentos' },
   ];
 
   protected alternar(): void {

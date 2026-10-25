@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => ({
           '/eventos',
           '/eventos/joti-2026',
           '/documentos',
+          '/acceso',
           '/legal/aviso-legal',
           '/legal/privacidad',
           '/legal/cookies',

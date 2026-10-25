@@ -38,6 +38,42 @@
 
   /* Curva suave para hovers y apariciones */
   --ease-suave: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Se pasa un poco y vuelve: para cosas que «saltan», como el ojo */
+  --ease-rebote: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Entrada de una tarjeta al cargar la página */
+  --animate-tarjeta-entra: tarjeta-entra 700ms var(--ease-suave) both;
+
+  @keyframes tarjeta-entra {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.96);
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  /* Sacudida de un formulario que se envía con errores */
+  --animate-sacude: sacude 450ms ease-in-out;
+
+  @keyframes sacude {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20%,
+    60% {
+      transform: translateX(-8px);
+    }
+    40%,
+    80% {
+      transform: translateX(8px);
+    }
+  }
 
   /* Líneas de conexión del mapa del Jota-Joti */
   --animate-flujo: flujo 1.2s linear infinite;

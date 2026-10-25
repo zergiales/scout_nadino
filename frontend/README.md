@@ -32,13 +32,13 @@ Para enseñar la web a otras personas mientras corre en tu ordenador, con un enl
 En `vite.config.ts`:
 
 - **`static: true`** — prerenderiza sin generar servidor Nitro. Es lo que mantiene el hosting gratuito y sin mantenimiento.
-- **`prerender.routes`** — las 12 rutas actuales. **Cada ruta nueva hay que añadirla aquí**, o existirá en desarrollo y no en el build. Es el fallo más fácil de cometer.
+- **`prerender.routes`** — las 13 rutas actuales. **Cada ruta nueva hay que añadirla aquí**, o existirá en desarrollo y no en el build. Es el fallo más fácil de cometer.
 - El resaltador de Markdown (`shiki`) y el plugin de Tailwind.
 
 ## Qué existe hoy
 
 - **Layout completo** en `src/app/layout/`: `header.ts` (navegación y menú móvil) y `footer.ts`. El shell con el skip link está en `app.ts`.
-- **12 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, los cuatro legales y el 404.
+- **13 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso al blog (solo la pantalla, sin autenticar), los cuatro legales y el 404.
 - **Tokens provisionales** en `src/styles.css`: elegidos solo para cumplir contraste. Los oficiales del grupo están pendientes del kraal (tarea 0.2).
 - Un componente en `shared/ui/`: `mapa-conexiones` (la ilustración del Jota-Joti).
 - `src/content/` **vacía**.
