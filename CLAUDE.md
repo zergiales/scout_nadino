@@ -90,7 +90,9 @@ El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona.
 
 Prioridades: **P0** = MVP (Inicio, Conócenos, Ramas, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
 
-**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, correo del grupo (en la web antigua está puesto como imagen), horario de reuniones, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
+**Datos ya confirmados:** el correo del grupo, `info@scoutsnadino.es` (en `core/grupo.ts`, que usan Contacto y el pie).
+
+**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, horario de reuniones, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
 
 ## Flujo de trabajo
 

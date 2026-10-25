@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { CORREO_GRUPO } from '../core/grupo';
 
 export const routeMeta: RouteMeta = {
   title: 'Contacto · Grupo Scout Nadino',
@@ -77,6 +78,14 @@ export const routeMeta: RouteMeta = {
                   Av. de la Constitución, 1<br />
                   19200 Azuqueca de Henares (Guadalajara)
                 </address>
+              } @else if (dato.id === 'correo') {
+                <!-- Texto real y enlace mailto: la web antigua lo tenía como
+                     imagen, que no se puede copiar ni leer en voz alta. -->
+                <p class="mt-1 mb-0">
+                  <a [href]="'mailto:' + correo" class="font-bold break-all text-marca">
+                    {{ correo }}
+                  </a>
+                </p>
               } @else {
                 <p class="mt-1 mb-0 text-tinta-suave">
                   <em>Pendiente de confirmar</em>
@@ -168,6 +177,8 @@ export const routeMeta: RouteMeta = {
   `,
 })
 export default class ContactoPage {
+  protected readonly correo = CORREO_GRUPO;
+
   // Iconos con el trazo de Lucide (ISC).
   protected readonly datos = [
     {

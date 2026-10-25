@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { CORREO_GRUPO } from '../core/grupo';
+
 /**
  * Pie de página. Aquí van Contacto y los enlaces legales, que no ocupan sitio
  * en la navegación principal (ver `docs/frontend/paginas.md`).
@@ -17,6 +19,11 @@ import { RouterLink } from '@angular/router';
           <p class="m-0 font-bold text-marca">Grupo Scout Nadino</p>
           <p class="mt-2 mb-0 text-sm text-tinta-suave">
             Scouts de Guadalajara · Movimiento Scout Católico
+          </p>
+          <p class="mt-2 mb-0 text-sm">
+            <a [href]="'mailto:' + correo" class="font-bold break-all text-marca">
+              {{ correo }}
+            </a>
           </p>
         </div>
 
@@ -97,6 +104,8 @@ import { RouterLink } from '@angular/router';
   `,
 })
 export class Footer {
+  protected readonly correo = CORREO_GRUPO;
+
   // Logos descargados de la web de cada asociación (public/img/asociaciones).
   // Tienen letras oscuras sobre fondo transparente: en el tema oscuro van
   // sobre una placa blanca (oscuro:bg-white) para que se lean.
