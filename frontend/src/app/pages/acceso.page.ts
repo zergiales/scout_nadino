@@ -35,69 +35,9 @@ export const routeMeta: RouteMeta = {
 @Component({
   selector: 'app-acceso',
   imports: [ReactiveFormsModule, RouterLink],
-  styles: `
-    /*
-      Ojo con párpados. Cerrado: los dos párpados se doblan hacia abajo y se
-      juntan en una curva con pestañas. Abierto: se separan con un pequeño
-      rebote y aparece el iris. transform-box hace que cada párpado gire
-      sobre la línea media del ojo (y = 12) y no sobre la esquina del SVG.
-    */
-    .parpado,
-    .iris,
-    .pestanas {
-      transform-box: fill-box;
-    }
-    .parpado-sup {
-      transform-origin: bottom;
-      transform: scaleY(-0.45);
-    }
-    .parpado-inf {
-      transform-origin: top;
-      transform: scaleY(0.45);
-    }
-    .iris {
-      transform-origin: center;
-      transform: scale(0);
-      opacity: 0;
-    }
-    .pestanas {
-      opacity: 1;
-    }
-    [data-abierto='true'] .parpado {
-      transform: none;
-    }
-    [data-abierto='true'] .iris {
-      transform: none;
-      opacity: 1;
-    }
-    [data-abierto='true'] .pestanas {
-      opacity: 0;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .parpado {
-        transition: transform 380ms var(--ease-rebote);
-      }
-      .iris {
-        transition:
-          transform 320ms var(--ease-rebote) 90ms,
-          opacity 200ms ease-out 90ms;
-      }
-      .pestanas {
-        transition: opacity 200ms ease-out;
-      }
-      /* Al cerrar, el iris se va antes de que bajen los párpados */
-      [data-abierto='false'] .iris {
-        transition-delay: 0ms;
-      }
-      .tarjeta {
-        animation: var(--animate-tarjeta-entra);
-      }
-      .sacude {
-        animation: var(--animate-sacude);
-      }
-    }
-  `,
+  // Sin bloque `styles:` (vitest no resuelve los estilos en línea, ver
+  // app.ts): el ojo, la entrada de la tarjeta y la sacudida están en
+  // src/styles.css.
   template: `
     <section class="relative isolate mx-auto max-w-md py-4 sm:py-10">
       <div aria-hidden="true">
@@ -110,7 +50,7 @@ export const routeMeta: RouteMeta = {
       </div>
 
       <div
-        class="tarjeta rounded-3xl border border-white/80 bg-white/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8"
+        class="tarjeta-entra rounded-3xl border border-white/80 bg-white/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8"
       >
         <img
           src="/img/logo-nadino.jpeg"
@@ -197,7 +137,7 @@ export const routeMeta: RouteMeta = {
               >
                 <svg
                   viewBox="0 0 24 24"
-                  class="h-6 w-6 fill-none stroke-current"
+                  class="ojo h-6 w-6 fill-none stroke-current"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"

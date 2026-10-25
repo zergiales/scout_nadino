@@ -157,6 +157,66 @@
   }
 }
 
+/*
+  Ojo de «mostrar contraseña» (acceso.page.ts). Cerrado: los dos párpados se
+  doblan hacia abajo y se juntan en una curva con pestañas. Abierto: se
+  separan con un pequeño rebote y aparece el iris. transform-box hace que cada
+  párpado gire sobre la línea media del ojo (y = 12) y no sobre la esquina
+  del SVG. Sin movimiento reducido, cambia de golpe.
+*/
+.ojo :is(.parpado, .iris, .pestanas) {
+  transform-box: fill-box;
+}
+.ojo .parpado-sup {
+  transform-origin: bottom;
+  transform: scaleY(-0.45);
+}
+.ojo .parpado-inf {
+  transform-origin: top;
+  transform: scaleY(0.45);
+}
+.ojo .iris {
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+}
+.ojo[data-abierto='true'] .parpado {
+  transform: none;
+}
+.ojo[data-abierto='true'] .iris {
+  transform: none;
+  opacity: 1;
+}
+.ojo[data-abierto='true'] .pestanas {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ojo .parpado {
+    transition: transform 380ms var(--ease-rebote);
+  }
+  /* Al abrir, el iris sale cuando ya se separan los párpados; al cerrar,
+     se va antes de que bajen. */
+  .ojo .iris {
+    transition:
+      transform 320ms var(--ease-rebote),
+      opacity 200ms ease-out;
+  }
+  .ojo[data-abierto='true'] .iris {
+    transition-delay: 90ms;
+  }
+  .ojo .pestanas {
+    transition: opacity 200ms ease-out;
+  }
+
+  .tarjeta-entra {
+    animation: var(--animate-tarjeta-entra);
+  }
+  .sacude {
+    animation: var(--animate-sacude);
+  }
+}
+
 body {
   background-color: #ffffff;
   color: var(--color-tinta);
