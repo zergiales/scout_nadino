@@ -1,4 +1,4 @@
-import { injectContentFiles } from '@analogjs/content';
+import { injectContentFiles, injectContentFilesMap } from '@analogjs/content';
 
 /** Frontmatter tal como llega del Markdown: sin validar. */
 export type Frontmatter = Record<string, unknown>;
@@ -17,6 +17,24 @@ export function leerColeccion(carpeta: string): { slug: string; datos: Frontmatt
   return injectContentFiles<Frontmatter>((fichero) =>
     fichero.filename.includes(`/content/${carpeta}/`),
   ).map((fichero) => ({ slug: fichero.slug, datos: fichero.attributes }));
+}
+
+/**
+ * Cargador del cuerpo de los ficheros de una carpeta, ya convertido a HTML
+ * por Analog (con el mismo marked que usa para el resto del contenido).
+ * Devuelve '' si el fichero no existe o no tiene cuerpo.
+ *
+ * Como `leerColeccion`, solo funciona en contexto de inyección; la función
+ * que devuelve sí se puede llamar después, desde un `resource`.
+ */
+export function cargadorDeCuerpos(carpeta: string): (slug: string) => Promise<string> {
+  const ficheros = injectContentFilesMap();
+  return async (slug) => {
+    const cargar = ficheros[`/src/content/${carpeta}/${slug}.md`];
+    if (!cargar) return '';
+    // Analog lo entrega como «---\n<frontmatter>\n---\n\n<html>».
+    return (await cargar()).replace(/^---\n[\s\S]*?\n---\n*/, '').trim();
+  };
 }
 
 /*

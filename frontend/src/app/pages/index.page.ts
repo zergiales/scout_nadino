@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { Noticia } from '../core/models/noticia';
+import { NoticiasService } from '../core/services/noticias.service';
 import { SeccionesService } from '../core/services/secciones.service';
 import { MapaConexiones } from '../shared/ui/mapa-conexiones';
 
@@ -14,7 +16,7 @@ export const routeMeta: RouteMeta = {
  * (Bloque A) toma su contenido de `src/content` a través de un servicio de
  * `core/services`, nunca leyéndolo aquí.
  *
- * Orden: portada con foto → inscripciones abiertas → Jota-Joti → secciones →
+ * Orden: portada con foto → noticias → inscripciones abiertas → Jota-Joti → secciones →
  * llamada final a la preinscripción.
  *
  * Estilo «cristal»: manchas moradas difuminadas detrás (`blur-3xl`) y tarjetas
@@ -99,6 +101,94 @@ export const routeMeta: RouteMeta = {
         class="mt-10 aspect-video w-full rounded-3xl object-cover object-[50%_85%] shadow-xl shadow-marca/10 sm:aspect-[21/9]"
       />
     </section>
+
+    <!--
+      Noticias: las tres más recientes, justo debajo de la foto. No hay página
+      de noticias ni detalle (decisión del grupo, 25/10/2026): lo que se ve es
+      el resumen de cada una. Si no hay ninguna, la sección no sale.
+    -->
+    @if (noticias().length > 0) {
+      <section aria-labelledby="titulo-noticias" class="relative isolate mt-16">
+        <h2 id="titulo-noticias" class="m-0 text-3xl font-extrabold text-marca">
+          Últimas noticias
+        </h2>
+
+        <!-- items-start: al desplegar una noticia, las de al lado no se
+             estiran hasta su altura. -->
+        <ul class="mt-6 grid list-none items-start gap-4 p-0 md:grid-cols-3">
+          @for (noticia of noticias(); track noticia.slug) {
+            <li class="aparece-al-scroll">
+              <article
+                class="flex flex-col overflow-hidden rounded-3xl border border-superficie/80 bg-superficie/60 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg"
+              >
+                @if (noticia.portada) {
+                  <img
+                    [src]="noticia.portada"
+                    [alt]="noticia.portadaAlt ?? ''"
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                    class="aspect-video w-full object-cover"
+                  />
+                }
+                <div class="flex grow flex-col p-5">
+                  <p class="m-0 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                    <time [attr.datetime]="noticia.fecha" class="font-semibold text-marca">
+                      {{ fechaLarga(noticia.fecha) }}
+                    </time>
+                    @let rama = ramaDe(noticia);
+                    <span class="inline-flex items-center gap-1.5 font-bold text-tinta-suave">
+                      @if (rama) {
+                        <span
+                          aria-hidden="true"
+                          class="h-2 w-2 rounded-full"
+                          [style.background-color]="rama.color"
+                        ></span>
+                        {{ rama.nombre }}
+                      } @else {
+                        Todo el grupo
+                      }
+                    </span>
+                  </p>
+                  <h3 class="mt-2 mb-0 text-xl font-bold tracking-tight text-tinta">
+                    {{ noticia.titulo }}
+                  </h3>
+                  <p class="mt-2 mb-0 text-tinta-suave">{{ noticia.resumen }}</p>
+
+                  <!-- Texto completo (con estilos y fotos, escrito en el
+                       backoffice). <details> nativo: se abre con teclado y
+                       lo anuncia el lector de pantalla. El HTML lo genera
+                       Analog desde el .md y Angular lo sanea al pintarlo. -->
+                  @let cuerpo = cuerpoDe(noticia.slug);
+                  @if (cuerpo) {
+                    <details class="desplegable group/leer mt-4">
+                      <summary
+                        class="inline-flex list-none items-center gap-1.5 rounded font-bold text-marca [&::-webkit-details-marker]:hidden"
+                      >
+                        <span class="group-open/leer:hidden">Leer la noticia</span>
+                        <span class="hidden group-open/leer:inline">Cerrar</span>
+                        <svg
+                          viewBox="0 0 24 24"
+                          class="h-5 w-5 fill-none stroke-current transition-transform duration-500 ease-suave group-open/leer:rotate-180"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </summary>
+                      <div class="texto-noticia mt-3" [innerHTML]="cuerpo"></div>
+                    </details>
+                  }
+                </div>
+              </article>
+            </li>
+          }
+        </ul>
+      </section>
+    }
 
     <!-- Inscripciones abiertas -->
     <section aria-labelledby="titulo-inscripciones" class="relative isolate mt-16">
@@ -376,5 +466,27 @@ export default class HomePage {
     'Sin compromiso: es una preinscripción',
   ];
 
-  protected readonly secciones = inject(SeccionesService).todas;
+  private readonly seccionesService = inject(SeccionesService);
+  protected readonly secciones = this.seccionesService.todas;
+
+  private readonly noticiasService = inject(NoticiasService);
+  /** Las tres más recientes (el servicio ya las da ordenadas). */
+  protected readonly noticias = computed(() => this.noticiasService.todas().slice(0, 3));
+
+  protected cuerpoDe(slug: string): string {
+    return this.noticiasService.cuerpo(slug);
+  }
+
+  protected ramaDe(noticia: Noticia) {
+    return noticia.seccion ? this.seccionesService.porSlug(noticia.seccion) : undefined;
+  }
+
+  /** «11 de octubre de 2026». Mediodía local para que la zona horaria no cambie el día. */
+  protected fechaLarga(iso: string): string {
+    return new Date(`${iso}T12:00:00`).toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
 }

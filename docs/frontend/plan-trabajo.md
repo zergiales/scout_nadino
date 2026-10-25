@@ -50,7 +50,7 @@ Estado: **✅** hecho · **⏳** empezado, falta algo · sin marca, sin empezar.
 - [ ] **Jota-Joti 2026** (`/eventos/joti-2026`) — página con las fechas del 16 al 18 de octubre de 2026; faltan el JID del grupo y el enlace de registro de contactos
 
 ### Bloque C — Dinámico, P1 (quien acabe antes)
-- [ ] **Noticias**: listado paginado + detalle
+- [x] **Noticias**: sin página propia; sección con las tres últimas en la portada, debajo de la foto. Hay una de ejemplo (Medinaceli) que hay que sustituir por una real
 - [ ] **Eventos**: lista de próximos, eventos pasados ocultos automáticamente
 - [ ] **Documentos**: listado de PDFs por categoría
 

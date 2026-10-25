@@ -38,11 +38,11 @@ En `vite.config.ts`:
 ## Qué existe hoy
 
 - **Layout completo** en `src/app/layout/`: `header.ts` (navegación y menú móvil) y `footer.ts`. El shell con el skip link está en `app.ts`.
-- **13 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso al blog (solo la pantalla, sin autenticar), los cuatro legales y el 404.
+- **13 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso (puerta del backoffice), los cuatro legales y el 404.
 - **Tokens provisionales** en `src/styles.css`: elegidos solo para cumplir contraste. Los oficiales del grupo están pendientes del kraal (tarea 0.2).
 - Un componente en `shared/ui/`: `mapa-conexiones` (la ilustración del Jota-Joti).
 - **`core/models`** (`Seccion`, `Evento`, `Documento`, `Noticia`) y **`core/services`** (`SeccionesService`, `EventosService`, `DocumentosService`, `NoticiasService`). Leen `src/content/` a través de `core/services/contenido.ts`.
-- **`src/content/`** con `secciones/` (las cinco ramas), `eventos/` (Jota-Joti) y `documentos/` (autorización genérica). `noticias/` está vacía.
+- **`src/content/`** con `secciones/` (las cinco ramas), `eventos/` (Jota-Joti), `documentos/` (autorización genérica) y `noticias/` (una de ejemplo, Medinaceli, inventada).
 
 **Deuda consciente:** Conócenos, Contacto, Preinscripción, Jota-Joti y los legales todavía llevan el texto escrito a mano dentro del componente. Eso contradice la regla 1 de más abajo, y es temporal: se mueve a `src/content` con el mismo patrón que las ramas. Las páginas no lo avisan a la vista, así que no des una página por terminada solo porque lo parezca.
 
@@ -113,9 +113,6 @@ frontend/
 │   │       ├── index.page.ts                 → /
 │   │       ├── conocenos.page.ts             → /conocenos
 │   │       ├── ramas.page.ts                 → /ramas (un desplegable por rama)
-│   │       ├── noticias/
-│   │       │   ├── index.page.ts             → /noticias
-│   │       │   └── [slug].page.ts            → /noticias/:slug
 │   │       ├── eventos.page.ts               → /eventos
 │   │       ├── documentos.page.ts            → /documentos
 │   │       ├── inscripcion.page.ts           → /inscripcion
@@ -190,17 +187,21 @@ categoria: autorizaciones   # inscripcion | autorizaciones | actividades
 ---
 ```
 
-**Noticia** — `src/content/noticias/<AAAA-MM-DD>-<slug>.md`. El cuerpo es el texto de la noticia.
+**Noticia** — `src/content/noticias/<AAAA-MM-DD>-<slug>.md`. No hay página de noticias: las tres últimas salen en la portada con su `resumen` (dos o tres frases) y el cuerpo del `.md` se despliega dentro de la tarjeta con «Leer la noticia». El cuerpo es opcional y no lleva títulos (`#`): ver `.texto-noticia` en `styles.css`.
 
 ```markdown
 ---
 titulo: Salida de otoño a la Sierra de Ayllón
 fecha: '2026-10-12'
 seccion: lobatos            # opcional
-resumen: Primera salida de la ronda con los nuevos lobatos.
-portada: /img/noticias/2026-10-12-ayllon.webp
+resumen: Primera salida de la ronda con los nuevos lobatos, por los hayedos de la sierra.
+portada: /img/noticias/2026-10-12-ayllon.webp   # opcional
 portadaAlt: Grupo de lobatos caminando por un hayedo, de espaldas
 ---
 
-Texto de la noticia en Markdown...
+Texto completo, opcional: **negrita**, listas, enlaces y fotos.
 ```
+
+Lo normal es no escribir estos ficheros a mano, sino desde el **backoffice** (`public/backoffice/`, Sveltia CMS). En local: `npm run dev`, abre `http://localhost:5173/backoffice/index.html` en Chrome o Edge, pulsa «Trabajar con el repositorio local» y elige la carpeta raíz del repositorio (la que tiene `.git`). Al guardar escribe los `.md` y las fotos directamente en el proyecto, y la portada se recarga sola con la noticia nueva.
+
+**Ojo con entrar «con GitHub» en local:** entonces no escribe en tu carpeta, sino que publica directamente en GitHub (en la rama de `backend.branch` de `config.yml`, hoy `main`), y en tu `npm run dev` no se ve hasta que la traigas con git. Para probar, usa siempre el repositorio local.

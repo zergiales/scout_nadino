@@ -14,8 +14,8 @@ interface EnlaceNav {
  * Calendario y ahora se llega a él desde allí; Contacto salió al entrar
  * Documentos y sigue en el pie. Para meter Noticias habrá que sacar otro.
  *
- * «Acceso al blog» no cuenta como enlace del menú: va aparte, como botón
- * con icono, y lleva a la pantalla de login del blog.
+ * «Acceso» (al backoffice) no cuenta como enlace del menú: va aparte, como botón
+ * con icono, y lleva a /acceso, la puerta del backoffice (ADR-0003).
  *
  * El botón de tema alterna entre oscuro (por defecto) y claro: cambia
  * data-tema en <html> y lo guarda en localStorage. El primer pintado lo
@@ -119,7 +119,7 @@ interface EnlaceNav {
               <path d="M12 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8" />
             </svg>
             <span class="max-lg:sr-only">Acceso</span>
-            <span class="sr-only">al blog</span>
+            <span class="sr-only">al backoffice</span>
           </a>
 
           <button

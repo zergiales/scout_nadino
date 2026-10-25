@@ -276,6 +276,57 @@
   }
 }
 
+/*
+  Texto completo de una noticia (index.page.ts). Es HTML que sale del .md
+  escrito en el backoffice, así que no lleva clases: se estiliza por
+  etiqueta. El editor no ofrece títulos (ver public/backoffice/config.yml),
+  para no romper la jerarquía de la página; si alguno llega a mano, se ve
+  como un subtítulo pequeño.
+*/
+.texto-noticia {
+  color: var(--color-tinta-suave);
+
+  & > * + * {
+    margin-top: 0.75rem;
+  }
+  & p {
+    margin-bottom: 0;
+  }
+  & strong {
+    color: var(--color-tinta);
+  }
+  & a {
+    color: var(--color-marca);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.25rem;
+  }
+  & ul {
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & blockquote {
+    border-left: 4px solid var(--color-marca);
+    padding-left: 0.75rem;
+    font-style: italic;
+  }
+  & img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-xl);
+  }
+  & :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-tinta);
+  }
+}
+
 body {
   background-color: var(--color-fondo);
   color: var(--color-tinta);

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DOCUMENT, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,28 +9,31 @@ import {
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { AccesoService } from '../core/services/acceso.service';
+
 /** Rechaza el correo en el campo de usuario: es el despiste más común. */
 function sinArroba(control: AbstractControl): ValidationErrors | null {
   return String(control.value).includes('@') ? { correo: true } : null;
 }
 
 export const routeMeta: RouteMeta = {
-  title: 'Acceso al blog · Grupo Scout Nadino',
+  title: 'Acceso al backoffice · Grupo Scout Nadino',
   meta: [{ name: 'robots', content: 'noindex' }],
 };
 
 /**
- * Pantalla de acceso para quien escribe en el blog del grupo.
+ * Pantalla de acceso al backoffice, a la que lleva el botón «Acceso» de la
+ * cabecera.
  *
- * Todavía NO autentica: el área privada es la fase 3 (`auth-service` con
- * OAuth2/JWT, ver CLAUDE.md) y una web estática no puede comprobar una
- * contraseña de forma segura. Al enviar, el formulario valida los campos y
- * avisa de que el acceso aún no está disponible, sin mandar nada a ningún
- * sitio. No metas aquí una contraseña ni una lista de usuarios para
- * «simularlo»: cualquiera podría leerla desde el navegador.
+ * HOY ES UNA PUERTA, NO UN LOGIN (ADR-0003, enmienda 2): valida el formato de
+ * los campos, pregunta a `AccesoService` y, si dice que sí, manda a
+ * /backoffice/index.html, donde el backoffice pide la cuenta de GitHub para
+ * publicar. El servicio todavía no comprueba la contraseña: eso llega con
+ * `auth-service` en la fase 3, y entonces esta página no cambia, porque ya
+ * sabe mostrar «usuario o contraseña incorrectos».
  *
- * Cuando exista el backend, el envío saldrá de un servicio de
- * `core/services` y esta página solo lo inyectará.
+ * La pantalla lo dice (debajo del botón) para que nadie crea que su
+ * contraseña protege algo todavía.
  */
 @Component({
   selector: 'app-acceso',
@@ -60,20 +63,18 @@ export const routeMeta: RouteMeta = {
           class="mx-auto h-16 w-16 rounded-xl"
         />
         <h1 class="mt-4 mb-0 text-center text-3xl font-extrabold text-marca">
-          Acceso al blog
+          Acceso al backoffice
         </h1>
         <p class="mt-2 text-center text-tinta-suave">
-          Para quien escribe en el blog del grupo.
+          Para el kraal: noticias, calendario y documentos de la web.
         </p>
 
-        @if (avisado()) {
+        @if (rechazado()) {
           <p
-            role="status"
-            class="mt-6 mb-0 rounded-r-xl border-l-4 border-marca bg-marca-suave px-4 py-3 text-sm text-tinta"
+            role="alert"
+            class="mt-6 mb-0 rounded-r-xl border-l-4 border-error bg-error-suave px-4 py-3 text-sm text-tinta"
           >
-            <strong>El acceso al blog todavía no está disponible.</strong> Se
-            abrirá cuando esté listo el sistema de cuentas del grupo. No se ha
-            enviado nada.
+            {{ rechazado() }}
           </p>
         }
 
@@ -171,10 +172,16 @@ export const routeMeta: RouteMeta = {
 
           <button
             type="submit"
-            class="mt-2 rounded-xl bg-marca px-6 py-3 text-lg font-bold text-sobre-marca shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+            class="mt-2 rounded-xl bg-marca px-6 py-3 text-lg font-bold text-sobre-marca shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro disabled:opacity-60 motion-safe:hover:-translate-y-0.5"
+            [disabled]="entrando()"
           >
-            Entrar
+            {{ entrando() ? 'Entrando…' : 'Entrar' }}
           </button>
+          <!-- Mientras no exista la fase 3, la que protege es la cuenta de
+               GitHub. Se dice aquí para no dar falsa seguridad. -->
+          <p class="m-0 text-center text-sm text-tinta-suave">
+            Después el backoffice te pedirá tu cuenta de GitHub para publicar.
+          </p>
         </form>
 
         <p class="mt-6 mb-0 text-center text-sm text-tinta-suave">
@@ -215,10 +222,14 @@ export const routeMeta: RouteMeta = {
 })
 export default class AccesoPage {
   private readonly fb = inject(FormBuilder);
+  private readonly acceso = inject(AccesoService);
+  private readonly documento = inject(DOCUMENT);
 
   protected readonly verClave = signal(false);
   protected readonly enviado = signal(false);
-  protected readonly avisado = signal(false);
+  protected readonly entrando = signal(false);
+  /** Mensaje si el servicio dice que no (fase 3), o null. */
+  protected readonly rechazado = signal<string | null>(null);
   protected readonly olvido = signal(false);
   protected readonly sacudir = signal(false);
   protected readonly mayusculas = signal(false);
@@ -270,15 +281,37 @@ export default class AccesoPage {
     this.mayusculas.set(evento.getModifierState?.('CapsLock') ?? false);
   }
 
-  protected entrar(): void {
+  protected async entrar(): Promise<void> {
     this.enviado.set(true);
-    this.avisado.set(this.formulario.valid);
+    this.rechazado.set(null);
 
     if (this.formulario.invalid) {
       this.sacudir.set(true);
       // El foco va al primer campo con error para que no haya que buscarlo.
       const primero = this.formulario.controls.usuario.invalid ? 'usuario' : 'clave';
-      setTimeout(() => document.getElementById(primero)?.focus(), 0);
+      setTimeout(() => this.documento.getElementById(primero)?.focus(), 0);
+      return;
     }
+
+    this.entrando.set(true);
+    const { usuario, clave } = this.formulario.getRawValue();
+    const resultado = await this.acceso.entrar(usuario, clave);
+    this.entrando.set(false);
+
+    if (resultado.ok) {
+      this.irA(resultado.destino);
+      return;
+    }
+    this.sacudir.set(true);
+    this.rechazado.set(
+      resultado.motivo === 'credenciales'
+        ? 'Usuario o contraseña incorrectos.'
+        : 'No se puede entrar ahora mismo. Prueba en un rato.',
+    );
+  }
+
+  /** Navegación completa (no del router): el backoffice no es de Angular. */
+  protected irA(url: string): void {
+    this.documento.location.assign(url);
   }
 }

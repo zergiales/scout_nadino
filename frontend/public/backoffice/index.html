@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Backoffice · Grupo Scout Nadino</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <!--
+      Backoffice del grupo: Sveltia CMS (ADR-0003). Es una aplicación aparte,
+      no parte de Angular; lee config.yml de esta misma carpeta.
+
+      Versión fijada a propósito, con su hash (integrity): si el CDN sirviera
+      otro fichero, el navegador no lo ejecuta. Para actualizar, cambia el
+      número tras comprobar en https://github.com/sveltia/sveltia-cms/releases
+      que no rompe nada, y recalcula el hash:
+        curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A
+      Como la configuración es compatible con Decap CMS, el plan B es cambiar
+      esta línea por la de Decap.
+    -->
+    <script
+      src="https://unpkg.com/@sveltia/cms@0.233.0/dist/sveltia-cms.js"
+      integrity="sha384-lq8uMtdOlotHkm4oFSd+o7whev4/k4o8uZwio5iwuW8sJsUxf9K4OewbxVUzGP5m"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
