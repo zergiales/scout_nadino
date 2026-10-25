@@ -100,7 +100,60 @@
   --color-borde: #8a7a94;
   --color-error: #b42318;
   --color-error-suave: #fef3f2;
+
+  /* Fondos. «superficie» es el cristal de tarjetas, campos y cabecera;
+     «sobre-marca», el texto e iconos encima de un fondo de marca. En el tema
+     claro los dos son blanco, pero no son lo mismo: en el oscuro uno se
+     oscurece y el otro también, por motivos distintos (ver más abajo). */
+  --color-fondo: #ffffff;
+  --color-superficie: #ffffff;
+  --color-sobre-marca: #ffffff;
 }
+
+/*
+  Tema oscuro: el de por defecto. index.html trae data-tema="oscuro" en
+  <html> y un script en línea lo cambia antes de pintar si el usuario eligió
+  el claro (localStorage «tema»), así no hay destello blanco al cargar. El
+  botón de la cabecera alterna entre los dos.
+
+  Solo se redefinen tokens: ningún componente sabe en qué tema está. La marca
+  pasa a un morado claro para leerse sobre fondo oscuro, y por eso el texto
+  encima de ella (sobre-marca) pasa a oscuro. Contrastes (provisionales,
+  como el resto de tokens):
+    marca sobre fondo 9,2:1 · sobre superficie 8,4:1 · sobre marca-suave 7,3:1
+    sobre-marca sobre marca 8,9:1 · sobre marca-oscuro (hover) 11:1
+    tinta-suave sobre superficie 9:1 · borde sobre superficie 5,2:1
+*/
+:root {
+  color-scheme: light;
+}
+
+:root[data-tema='oscuro'] {
+  color-scheme: dark;
+
+  --color-fondo: #140b1a;
+  --color-superficie: #241530;
+  --color-sobre-marca: #1a0b22;
+
+  --color-marca: #d9a3f0;
+  --color-marca-claro: #b779d6;
+  --color-marca-suave: #34203f;
+  /* En claro es el morado más oscuro; aquí, el más claro: se usa para el
+     hover de los botones y tiene que separarse de «marca» en el mismo
+     sentido en que se separa el fondo. */
+  --color-marca-oscuro: #ecc8fb;
+
+  --color-tinta: #f3eef6;
+  --color-tinta-suave: #c9bdd2;
+
+  --color-borde: #9a87a8;
+  --color-error: #ff8a80;
+  --color-error-suave: #3a1416;
+}
+
+/* Para lo poco que no se arregla con tokens (p. ej. logos con fondo
+   transparente y letras negras): oscuro:bg-white */
+@custom-variant oscuro (&:where([data-tema='oscuro'], [data-tema='oscuro'] *));
 
 /*
   Aparición al hacer scroll: el elemento sube y se aclara al entrar en
@@ -218,7 +271,7 @@
 }
 
 body {
-  background-color: #ffffff;
+  background-color: var(--color-fondo);
   color: var(--color-tinta);
 }
 
