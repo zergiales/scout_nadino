@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 El frontend compila a HTML estático: `npm run build` genera **13 rutas prerenderizadas**. `backend/` sigue siendo solo un README reservado para la fase 3.
 
-Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 13 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso al blog, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css` y un componente en `shared/ui/` (`mapa-conexiones`).
+Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 13 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso al blog, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css`, un componente en `shared/ui/` (`mapa-conexiones`) y la capa `core/` con modelos (`Seccion`, `Evento`, `Documento`, `Noticia`) y sus servicios. Ramas, portada, calendario y documentos ya leen de `src/content/` (secciones, eventos, documentos); `noticias/` está vacía y aún no tiene página.
 
-Lo que **todavía no**: `core/` entera (modelos, servicios, SEO), el resto de `shared/ui/`, el CI y el despliegue. `src/content/` está vacía. Antes de dar por hecho un fichero o un comando, comprueba que existe.
+Lo que **todavía no**: `core/seo`, el resto de `shared/ui/`, la página de Noticias, el CMS ([ADR-0003](docs/adr/0003-cms-y-acceso-de-editores.md)), el CI y el despliegue. Conócenos, Contacto, Preinscripción, Jota-Joti y los legales siguen con el texto dentro del componente. Antes de dar por hecho un fichero o un comando, comprueba que existe.
 
 El idioma del proyecto es el español: documentación, commits, rutas (`/conocenos`, `/inscripcion`), nombres de modelos (`Noticia`, `Evento`, `Seccion`) y contenido. Solo los identificadores propios del framework quedan en inglés.
 
@@ -45,9 +45,13 @@ Tres fases, con la fase 1 en curso:
 
 La decisión clave que explica casi todo el diseño: **la capa de servicios de `core/services` es la única frontera con el origen de datos.** Hoy esos servicios leen Markdown de `src/content`; en la fase 3 llamarán a la API de Spring Boot con `HttpClient`. Por eso ningún componente ni página lee contenido directamente — siempre `inject(NoticiasService)` y similares. Si una página importa contenido por su cuenta, el cambio de fase deja de ser local y el diseño se rompe.
 
-Esto es fácil de incumplir sin darse cuenta: los ejemplos de Analog llaman a `injectContentFiles()` / `injectContent()` **dentro de la página**. Aquí esas llamadas van en el servicio de `core/services`, y la página solo inyecta el servicio.
+Esto es fácil de incumplir sin darse cuenta: los ejemplos de Analog llaman a `injectContentFiles()` / `injectContent()` **dentro de la página**. Aquí esas llamadas van en `core/services/contenido.ts` (`leerColeccion`), que solo usan los servicios, y la página solo inyecta el servicio. Los servicios exponen `Signal`, no arrays, para que en la fase 3 se puedan respaldar con una petición HTTP sin tocar las páginas.
 
-**Deuda consciente, no permiso.** Las páginas actuales llevan su texto escrito a mano en el componente, porque se adelantaron a la tarea 0.4 para poder ver la web funcionando. Eso se arregla moviendo el texto a `src/content` en cuanto existan los servicios; no es el patrón a imitar. Las páginas ya no llevan un aviso visible de borrador (el grupo lo quitó porque desentonaba): que una página parezca terminada no significa que lo esté. Los textos pendientes del kraal siguen siendo provisionales, y las cuatro páginas legales solo tienen un párrafo de «estamos preparando este texto».
+**Al crear un `.md` nuevo en `src/content`, reinicia `npm run dev`.** Analog arma la lista de ficheros de contenido al arrancar y no ve los que aparecen después: la página sale vacía sin ningún error. El build no tiene este problema.
+
+Cómo se prueba: los tests de una página le dan un servicio falso (`{ provide: SeccionesService, useValue: … }`); `core/services/contenido.spec.ts` prueba los servicios contra los `.md` reales. En vitest el plugin de Analog no carga la lista de ficheros, así que ese spec sustituye `injectContentFiles` con `vi.mock`.
+
+**Deuda consciente, no permiso.** Varias páginas llevan su texto escrito a mano en el componente, porque se adelantaron a la tarea 0.4 para poder ver la web funcionando. Ya se ha movido lo que va a editar el CMS (ramas, eventos, documentos); el resto se mueve a `src/content` con el mismo patrón. No es el patrón a imitar. Las páginas ya no llevan un aviso visible de borrador (el grupo lo quitó porque desentonaba): que una página parezca terminada no significa que lo esté. Los textos pendientes del kraal siguen siendo provisionales, y las cuatro páginas legales solo tienen un párrafo de «estamos preparando este texto».
 
 Consecuencia operativa: **la web pública no depende del backend** y debe funcionar con él caído o inexistente. En la fase 1 el contacto es correo y dirección (sin formulario) y la inscripción es un enlace a un formulario externo.
 
@@ -81,7 +85,7 @@ El árbol de carpetas objetivo, el formato del frontmatter de cada tipo de conte
 
 ## Qué construir y en qué orden
 
-El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona. Hechas: 0.1 (proyecto) y 0.3 (layout). A medias: 0.2 (tokens provisionales), 0.5 (un componente) y 0.6 (títulos sí, meta description no). **Lo siguiente es 0.4**, modelos y servicios, porque es lo que desbloquea mover el contenido fuera de los componentes. Quedan además el CI (0.7) y el despliegue (0.8).
+El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona. Hechas: 0.1 (proyecto), 0.3 (layout) y 0.4 (modelos y servicios). A medias: 0.2 (tokens provisionales), 0.5 (un componente) y 0.6 (títulos sí, meta description no). Quedan el CI (0.7) y el despliegue (0.8). Para el CMS del ADR-0003 hacen falta además la página de Noticias y el despliegue en Cloudflare Pages.
 
 Prioridades: **P0** = MVP (Inicio, Conócenos, Ramas, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
 

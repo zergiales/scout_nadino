@@ -1,42 +1,23 @@
-import { Component, afterNextRender, computed, signal } from '@angular/core';
+import { Component, afterNextRender, computed, inject, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { Evento } from '../../core/models/evento';
+import { EventosService } from '../../core/services/eventos.service';
+import { SeccionesService } from '../../core/services/secciones.service';
+
 export const routeMeta: RouteMeta = {
   title: 'Calendario · Grupo Scout Nadino',
-};
-
-interface Evento {
-  slug: string;
-  titulo: string;
-  /** Fechas en formato AAAA-MM-DD. */
-  inicio: string;
-  fin?: string;
-  lugar?: string;
-  /** Slugs de las ramas que van; vacío = todo el grupo. */
-  ramas: string[];
-  descripcion: string;
-  /** Página propia del evento, si la tiene. */
-  enlace?: string;
-}
-
-const RAMAS: Record<string, { nombre: string; color: string }> = {
-  castores: { nombre: 'Castores', color: 'var(--color-castores)' },
-  lobatos: { nombre: 'Lobatos', color: 'var(--color-lobatos)' },
-  scouts: { nombre: 'Exploradores', color: 'var(--color-scouts)' },
-  pioneros: { nombre: 'Pioneros', color: 'var(--color-pioneros)' },
-  rutas: { nombre: 'Rutas', color: 'var(--color-rutas)' },
 };
 
 /**
  * Calendario del grupo, en lista y no en rejilla de mes: se lee mejor con
  * lector de pantalla y en el móvil (ver `docs/frontend/paginas.md`).
  *
- * Los eventos van escritos a mano hasta que exista `EventosService` (tarea
- * 0.4), que los leerá de `src/content/eventos/*.md`. Para añadir uno ahora,
- * basta con meterlo en la lista de abajo: el orden y el reparto entre
- * próximos y pasados se calculan solos.
+ * Los eventos salen de `src/content/eventos/*.md` a través de
+ * `EventosService`. Para añadir uno basta con crear su `.md`: el orden y el
+ * reparto entre próximos y pasados se calculan solos.
  *
  * El reparto depende de la fecha de hoy. La página se prerenderiza con la
  * fecha del build y, ya en el navegador, se recalcula con la fecha real
@@ -171,9 +152,9 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
                 <span
                   aria-hidden="true"
                   class="h-2 w-2 rounded-full"
-                  [style.background-color]="ramas[slug].color"
+                  [style.background-color]="rama(slug)?.color"
                 ></span>
-                {{ ramas[slug].nombre }}
+                {{ rama(slug)?.nombre }}
               </li>
             }
           </ul>
@@ -192,36 +173,26 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
   `,
 })
 export default class EventosPage {
-  protected readonly ramas = RAMAS;
-
-  // Datos provisionales. En la tarea 0.4 salen de EventosService.
-  private readonly eventos: Evento[] = [
-    {
-      slug: 'joti-2026',
-      titulo: 'Jota-Joti 2026',
-      inicio: '2026-10-16',
-      fin: '2026-10-18',
-      ramas: [],
-      descripcion:
-        'Scouts de todo el mundo conectados por radio y por internet durante un fin de semana.',
-      enlace: '/eventos/joti-2026',
-    },
-  ];
-
+  private readonly secciones = inject(SeccionesService);
+  private readonly eventos = inject(EventosService).todos;
   /** Fecha de hoy (AAAA-MM-DD). La del build al prerenderizar; la real en el navegador. */
   private readonly hoy = signal(this.aIso(new Date()));
 
   protected readonly proximos = computed(() =>
-    this.eventos
+    this.eventos()
       .filter((e) => (e.fin ?? e.inicio) >= this.hoy())
       .sort((a, b) => a.inicio.localeCompare(b.inicio)),
   );
 
   protected readonly pasados = computed(() =>
-    this.eventos
+    this.eventos()
       .filter((e) => (e.fin ?? e.inicio) < this.hoy())
       .sort((a, b) => b.inicio.localeCompare(a.inicio)),
   );
+
+  protected rama(slug: string) {
+    return this.secciones.porSlug(slug);
+  }
 
   constructor() {
     afterNextRender(() => this.hoy.set(this.aIso(new Date())));

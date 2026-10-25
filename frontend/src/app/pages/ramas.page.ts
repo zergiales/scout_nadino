@@ -3,28 +3,21 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { SeccionesService } from '../core/services/secciones.service';
+
 
 export const routeMeta: RouteMeta = {
   title: 'Ramas · Grupo Scout Nadino',
 };
-
-interface Rama {
-  slug: string;
-  nombre: string;
-  edades: string;
-  color: string;
-  resumen: string;
-  queHacen: string[];
-}
 
 /**
  * Las cinco ramas, cada una en un desplegable nativo (`<details>`): se abre
  * con teclado y lo anuncia un lector de pantalla sin una línea de JavaScript.
  * La animación de apertura es la utilidad `desplegable` de `styles.css`.
  *
- * Los textos son genéricos del escultismo y están pendientes de que el kraal
- * los revise; en la tarea 0.4 salen de `src/content/secciones/*.md` a través
- * de `SeccionesService`, y la lista de abajo desaparece.
+ * Los textos salen de `src/content/secciones/*.md` a través de
+ * `SeccionesService`. Son genéricos del escultismo y están pendientes de que
+ * el kraal los revise.
  */
 @Component({
   selector: 'app-ramas',
@@ -47,7 +40,7 @@ interface Rama {
 
 
     <ul class="mt-8 flex list-none flex-col gap-4 p-0">
-      @for (rama of ramas; track rama.slug) {
+      @for (rama of ramas(); track rama.slug) {
         <!-- id = slug: la portada enlaza a /ramas#castores, etc. El router
              baja hasta aquí y [open] despliega esa rama. -->
         <li class="aparece-al-scroll" [id]="rama.slug" [style.--c]="rama.color">
@@ -130,71 +123,5 @@ export default class RamasPage {
     initialValue: null,
   });
 
-  protected readonly ramas: Rama[] = [
-    {
-      slug: 'castores',
-      nombre: 'Castores',
-      edades: '6 a 8',
-      color: 'var(--color-castores)',
-      resumen:
-        'Los más pequeños del grupo. Descubren el escultismo jugando, en equipo y al aire libre.',
-      queHacen: [
-        'Juegos y talleres para aprender a compartir y a convivir',
-        'Salidas cortas a la naturaleza',
-        'Sus primeras noches fuera de casa con el grupo',
-      ],
-    },
-    {
-      slug: 'lobatos',
-      nombre: 'Lobatos',
-      edades: '8 a 11',
-      color: 'var(--color-lobatos)',
-      resumen:
-        'Viven su aventura ambientada en «El libro de la selva» y aprenden a valerse por sí mismos.',
-      queHacen: [
-        'Juegos, canciones y actividades en la naturaleza',
-        'Retos para aprender cosas nuevas cada ronda',
-        'Excursiones y campamentos',
-      ],
-    },
-    {
-      slug: 'scouts',
-      nombre: 'Exploradores',
-      edades: '11 a 14',
-      color: 'var(--color-scouts)',
-      resumen:
-        'Se organizan en patrullas: pequeños equipos que preparan y viven sus propias actividades.',
-      queHacen: [
-        'Técnicas de campismo, orientación y vida al aire libre',
-        'Acampadas y campamentos por patrullas',
-        'Responsabilidades dentro de su patrulla',
-      ],
-    },
-    {
-      slug: 'pioneros',
-      nombre: 'Pioneros',
-      edades: '14 a 17',
-      color: 'var(--color-pioneros)',
-      resumen:
-        'Con más autonomía, sacan adelante sus propios proyectos y miran a lo que pasa a su alrededor.',
-      queHacen: [
-        'Proyectos que deciden y organizan entre ellos',
-        'Actividades de servicio en su entorno',
-        'Rutas y campamentos más exigentes',
-      ],
-    },
-    {
-      slug: 'rutas',
-      nombre: 'Rutas',
-      edades: '17 a 21',
-      color: 'var(--color-rutas)',
-      resumen:
-        'La última etapa: el servicio a los demás y preparar su propio camino como personas adultas.',
-      queHacen: [
-        'Proyectos de servicio y voluntariado',
-        'Rutas y viajes',
-        'Primeros pasos para ser monitores',
-      ],
-    },
-  ];
+  protected readonly ramas = inject(SeccionesService).todas;
 }

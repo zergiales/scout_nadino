@@ -25,7 +25,7 @@ Estado: **✅** hecho · **⏳** empezado, falta algo · sin marca, sin empezar.
 | ✅ 0.1 | Generar proyecto Analog + Angular 22 en `frontend/` | `npm run build` genera las 10 rutas prerenderizadas en `dist/analog/public/` |
 | ⏳ 0.2 | Tailwind con tokens: colores del grupo y de cada sección, tipografía, espaciados | Tokens en `src/styles.css`, nada de colores sueltos en componentes. Los que hay son **provisionales**, elegidos solo por contraste: faltan los oficiales (Bloque D) |
 | ⏳ 0.3 | Layout: skip link, header, navegación (con menú móvil vía CDK), footer | Navegable con teclado y lector de pantalla; sin scroll horizontal a 320px. Hecho, pero con un `signal` en vez del CDK, y sin comprobar todavía con lector de pantalla ni a 320 px |
-| 0.4 | Modelos y servicios vacíos (`core/models`, `core/services`) | Interfaces `Noticia`, `Evento`, `Seccion`, `Documento` definidas |
+| ✅ 0.4 | Modelos y servicios (`core/models`, `core/services`) | Interfaces `Noticia`, `Evento`, `Seccion`, `Documento` definidas. Hecho, y con contenido real: ramas, eventos y documentos ya salen de `src/content`. `NoticiasService` existe pero no hay noticias ni página |
 | ⏳ 0.5 | Componentes base en `shared/ui`: botón, tarjeta, encabezado de sección, imagen responsive | Con estado de foco visible y contraste ≥ 4,5:1. Existe `mapa-conexiones`; faltan los cuatro de la lista |
 | ⏳ 0.6 | SEO por página: `<title>`, meta description, `lang="es"` | Cada ruta con título único. Hechos los títulos (`routeMeta`) y el `lang="es"`; faltan meta description y Open Graph |
 | 0.7 | CI: lint + build + axe + Lighthouse (umbral de accesibilidad ≥ 95) | La PR falla si baja la accesibilidad |

@@ -8,8 +8,14 @@
   kraal confirme los colores oficiales del grupo y de cada sección. Cuando los
   confirme, se cambian aquí y en ningún otro sitio: ningún componente usa
   valores sueltos.
+
+  «static»: Tailwind emite TODAS las variables, no solo las que encuentra
+  escritas en el código. Hace falta porque algunas solo se nombran desde el
+  contenido: el color de cada rama es var(--color-<slug>) y el slug sale de
+  src/content/secciones/, que Tailwind no lee. Sin esto, las ramas que no se
+  nombran en ningún .ts (lobatos, pioneros) se quedaban sin color.
 */
-@theme {
+@theme static {
   /* Marca: morado sacado del logo (public/img/logo-nadino.jpeg).
      Contraste sobre blanco 8,0:1; sobre marca-suave 7,1:1. */
   --color-marca: #811aa4;

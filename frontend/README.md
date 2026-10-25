@@ -41,11 +41,12 @@ En `vite.config.ts`:
 - **13 páginas** en `src/app/pages/`: portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso al blog (solo la pantalla, sin autenticar), los cuatro legales y el 404.
 - **Tokens provisionales** en `src/styles.css`: elegidos solo para cumplir contraste. Los oficiales del grupo están pendientes del kraal (tarea 0.2).
 - Un componente en `shared/ui/`: `mapa-conexiones` (la ilustración del Jota-Joti).
-- `src/content/` **vacía**.
+- **`core/models`** (`Seccion`, `Evento`, `Documento`, `Noticia`) y **`core/services`** (`SeccionesService`, `EventosService`, `DocumentosService`, `NoticiasService`). Leen `src/content/` a través de `core/services/contenido.ts`.
+- **`src/content/`** con `secciones/` (las cinco ramas), `eventos/` (Jota-Joti) y `documentos/` (autorización genérica). `noticias/` está vacía.
 
-**Deuda consciente:** como `core/services` todavía no existe (tarea 0.4), el texto de esas páginas está escrito a mano dentro de los componentes. Eso contradice la regla 1 de más abajo, y es temporal: cuando existan los servicios, el texto se mueve a `src/content`. Las páginas no lo avisan a la vista, así que no des una página por terminada solo porque lo parezca.
+**Deuda consciente:** Conócenos, Contacto, Preinscripción, Jota-Joti y los legales todavía llevan el texto escrito a mano dentro del componente. Eso contradice la regla 1 de más abajo, y es temporal: se mueve a `src/content` con el mismo patrón que las ramas. Las páginas no lo avisan a la vista, así que no des una página por terminada solo porque lo parezca.
 
-`core/` y el resto de `shared/ui/` se crean conforme avanza el Sprint 0 (ver [`docs/frontend/plan-trabajo.md`](../docs/frontend/plan-trabajo.md)).
+El resto de `shared/ui/` se crea conforme avanza el Sprint 0 (ver [`docs/frontend/plan-trabajo.md`](../docs/frontend/plan-trabajo.md)).
 
 ## Decisiones de implementación que conviene no deshacer
 
@@ -146,11 +147,56 @@ frontend/
 
 ## Formato del contenido (frontmatter)
 
+Las claves van en español y coinciden con los campos de `core/models`. El nombre del fichero es el `slug` (la URL): minúsculas, guiones, sin tildes. Las fechas, `AAAA-MM-DD`; mejor entre comillas, aunque el servicio acepta las dos formas. Un campo vacío o mal escrito no rompe el build, pero el elemento puede no salir: `npm test` lo detecta (`core/services/contenido.spec.ts`).
+
+**Rama** — `src/content/secciones/<slug>.md`. Solo los cinco slugs conocidos (`castores`, `lobatos`, `scouts`, `pioneros`, `rutas`); el color sale del token `--color-<slug>`, no del contenido.
+
 ```markdown
 ---
-title: Salida de otoño a la Sierra de Ayllón
-date: 2026-10-12
-seccion: lobatos           # opcional
+nombre: Lobatos
+edades: '8 a 11'
+orden: 2
+resumen: 'Viven su aventura ambientada en «El libro de la selva»…'
+queHacen:
+  - 'Juegos, canciones y actividades en la naturaleza'
+  - 'Excursiones y campamentos'
+---
+```
+
+**Evento** — `src/content/eventos/<slug>.md`. Los pasados se ocultan solos.
+
+```markdown
+---
+titulo: Acampada de otoño
+inicio: '2026-11-07'
+fin: '2026-11-08'          # opcional
+lugar: Albergue de …        # opcional
+ramas: [lobatos, scouts]    # vacío = todo el grupo
+descripcion: Primera acampada de la ronda.
+enlace: /eventos/joti-2026  # opcional: página propia
+---
+```
+
+**Documento** — `src/content/documentos/<slug>.md`, con el PDF en `public/documentos/`.
+
+```markdown
+---
+titulo: Autorización genérica
+descripcion: Permiso para las actividades de toda la ronda…
+fichero: /documentos/autorizacion-generica.pdf
+formato: PDF
+tamano: 120 KB
+categoria: autorizaciones   # inscripcion | autorizaciones | actividades
+---
+```
+
+**Noticia** — `src/content/noticias/<AAAA-MM-DD>-<slug>.md`. El cuerpo es el texto de la noticia.
+
+```markdown
+---
+titulo: Salida de otoño a la Sierra de Ayllón
+fecha: '2026-10-12'
+seccion: lobatos            # opcional
 resumen: Primera salida de la ronda con los nuevos lobatos.
 portada: /img/noticias/2026-10-12-ayllon.webp
 portadaAlt: Grupo de lobatos caminando por un hayedo, de espaldas

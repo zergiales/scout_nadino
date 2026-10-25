@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { SeccionesService } from '../core/services/secciones.service';
 import { MapaConexiones } from '../shared/ui/mapa-conexiones';
 
 export const routeMeta: RouteMeta = {
@@ -279,7 +280,7 @@ export const routeMeta: RouteMeta = {
         cualquier transform del propio <li>.
       -->
       <ul class="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-5">
-        @for (seccion of secciones; track seccion.slug) {
+        @for (seccion of secciones(); track seccion.slug) {
           <li class="aparece-al-scroll" [style.--c]="seccion.color">
             <a
               routerLink="/ramas"
@@ -375,13 +376,5 @@ export default class HomePage {
     'Sin compromiso: es una preinscripción',
   ];
 
-  // Datos provisionales. En la tarea 0.4 salen de SeccionesService leyendo
-  // src/content/secciones/*.md, y esta lista desaparece.
-  protected readonly secciones = [
-    { slug: 'castores', nombre: 'Castores', edades: '6 a 8', color: 'var(--color-castores)' },
-    { slug: 'lobatos', nombre: 'Lobatos', edades: '8 a 11', color: 'var(--color-lobatos)' },
-    { slug: 'scouts', nombre: 'Exploradores', edades: '11 a 14', color: 'var(--color-scouts)' },
-    { slug: 'pioneros', nombre: 'Pioneros', edades: '14 a 17', color: 'var(--color-pioneros)' },
-    { slug: 'rutas', nombre: 'Rutas', edades: '17 a 21', color: 'var(--color-rutas)' },
-  ];
+  protected readonly secciones = inject(SeccionesService).todas;
 }

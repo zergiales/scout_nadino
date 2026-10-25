@@ -1,8 +1,22 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
+import { SLUGS_SECCION, Seccion } from '../core/models/seccion';
+import { SeccionesService } from '../core/services/secciones.service';
 import RamasPage from './ramas.page';
+
+// La página solo conoce el servicio: aquí no se leen los .md de verdad.
+const secciones: Seccion[] = SLUGS_SECCION.map((slug, i) => ({
+  slug,
+  nombre: slug,
+  edades: '',
+  orden: i,
+  resumen: '',
+  queHacen: [],
+  color: `var(--color-${slug})`,
+}));
 
 describe('RamasPage', () => {
   function crear(fragmento: string | null) {
@@ -11,6 +25,7 @@ describe('RamasPage', () => {
       providers: [
         provideRouter([]),
         { provide: ActivatedRoute, useValue: { fragment: of(fragmento) } },
+        { provide: SeccionesService, useValue: { todas: signal(secciones) } },
       ],
     });
     const fixture = TestBed.createComponent(RamasPage);

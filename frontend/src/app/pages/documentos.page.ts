@@ -1,29 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
+
+import { CategoriaDocumento, Documento } from '../core/models/documento';
+import { DocumentosService } from '../core/services/documentos.service';
 
 export const routeMeta: RouteMeta = {
   title: 'Documentos · Grupo Scout Nadino',
 };
 
-interface Documento {
-  titulo: string;
-  descripcion: string;
-  /** Ruta pública: el fichero va en `public/documentos/`. */
-  fichero: string;
-  formato: string;
-  /** Tamaño escrito a mano, p. ej. «120 KB». */
-  tamano: string;
-  categoria: 'inscripcion' | 'autorizaciones' | 'actividades';
-}
-
 /**
  * Documentos para descargar, agrupados por categoría.
  *
  * Para añadir uno: copia el PDF a `public/documentos/` (nombre en minúsculas
- * y con guiones, sin espacios ni tildes) y añade su entrada a la lista de
- * abajo. En la tarea 0.4 la lista sale de `DocumentosService`, que leerá
- * `src/content/documentos/*.md`.
+ * y con guiones, sin espacios ni tildes) y crea su ficha en
+ * `src/content/documentos/`. La lista sale de `DocumentosService`.
  *
  * Ojo con los datos de menores: aquí solo van plantillas en blanco, nunca un
  * documento ya relleno.
@@ -168,23 +159,9 @@ export default class DocumentosPage {
     },
   ] as const;
 
-  // Los PDF viven en public/documentos/ y esta lista se mantiene a mano.
-  // Es provisional: en la fase 3 los documentos pasan a una base de datos y
-  // esta página los pedirá a un servicio de core/services (ver
-  // frontend/README.md, «Ficheros estáticos»).
-  private readonly documentos: Documento[] = [
-    {
-      titulo: 'Autorización genérica',
-      descripcion:
-        'Permiso para las reuniones, salidas y actividades de toda la ronda solar, con el consentimiento de protección de datos y de uso de imagen. Se imprime, se firma y se entrega al kraal.',
-      fichero: '/documentos/autorizacion-generica.pdf',
-      formato: 'PDF',
-      tamano: '120 KB',
-      categoria: 'autorizaciones',
-    },
-  ];
+  private readonly documentos = inject(DocumentosService).todos;
 
-  protected deCategoria(id: Documento['categoria']): Documento[] {
-    return this.documentos.filter((doc) => doc.categoria === id);
+  protected deCategoria(id: CategoriaDocumento): Documento[] {
+    return this.documentos().filter((doc) => doc.categoria === id);
   }
 }
