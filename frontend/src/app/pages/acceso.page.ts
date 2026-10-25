@@ -50,7 +50,7 @@ export const routeMeta: RouteMeta = {
       </div>
 
       <div
-        class="tarjeta-entra rounded-3xl border border-white/80 bg-white/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8"
+        class="tarjeta-entra rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8"
       >
         <img
           src="/img/logo-nadino.jpeg"
@@ -171,7 +171,7 @@ export const routeMeta: RouteMeta = {
 
           <button
             type="submit"
-            class="mt-2 rounded-xl bg-marca px-6 py-3 text-lg font-bold text-white shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+            class="mt-2 rounded-xl bg-marca px-6 py-3 text-lg font-bold text-sobre-marca shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
           >
             Entrar
           </button>
@@ -224,7 +224,7 @@ export default class AccesoPage {
   protected readonly mayusculas = signal(false);
 
   protected readonly claseCampo =
-    'w-full rounded-xl border-2 border-borde bg-white/80 px-4 py-3 text-tinta transition-colors duration-300 ease-suave hover:border-marca-claro focus:border-marca aria-invalid:border-error aria-invalid:bg-error-suave';
+    'w-full rounded-xl border-2 border-borde bg-superficie/80 px-4 py-3 text-tinta transition-colors duration-300 ease-suave hover:border-marca-claro focus:border-marca aria-invalid:border-error aria-invalid:bg-error-suave';
 
   protected readonly formulario = this.fb.nonNullable.group({
     usuario: [

@@ -18,14 +18,16 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 | Noticia (detalle) | `/noticias/:slug` | P1 | Texto, fotos (solo con autorización de imagen), fecha, sección | `content/noticias/<slug>.md` |
 | Calendario | `/eventos` | P1 | Próximos eventos y ya celebrados, en lista (no rejilla de calendario: es más accesible) | `content/eventos/*.md` |
 | Jota-Joti | `/eventos/joti-2026` | P0 | Fechas, JID del grupo, cómo participar y enlaces. Una página por edición | `content/eventos/joti-<año>.md` |
-| Documentos | `/documentos` | P1 | Autorizaciones, circulares, listas de material (PDF) | `content/documentos/*.md` + `public/documentos/` |
+| Documentos | `/documentos` | P1 | Autorizaciones, circulares, listas de material (PDF) | `public/documentos/` + lista en la página; fase 3: base de datos vía API |
 | Acceso al blog | `/acceso` | P0 (pantalla) / P2 (funcionando) | Login para quien escribe en el blog. Hoy solo es la pantalla: valida los campos y avisa de que el área privada aún no está disponible, sin enviar nada. `noindex` | — (fase 3: `auth-service`) |
 | Área privada | `/privado/**` | P2 | Gestión para monitores, tras el login | `auth-service` + API |
 | Formulario de contacto | `/contacto` | P2 | Formulario real con envío | API |
 
 ## Navegación principal (máx. 6 elementos)
 
-Inicio · Conócenos · Ramas · Calendario · Documentos · **Preinscripción** (destacada como botón)
+Inicio · Conócenos · Ramas · Calendario · Documentos
+
+**Preinscripción** (que iba destacada como botón) está quitada del menú por ahora: está comentada en `layout/header.ts` porque quedaba rara. Se llega desde la portada, Ramas, Conócenos y el footer, y su hueco cuenta como libre para el tope de 6.
 
 Aparte, fuera del menú y sin contar para el tope: el botón con icono **Acceso al blog**, que lleva a `/acceso`.
 

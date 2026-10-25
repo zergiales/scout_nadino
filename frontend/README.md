@@ -54,6 +54,28 @@ En `vite.config.ts`:
 - **El formulario de preinscripción no envía nada todavía** y lo dice en pantalla. Cuando se decida el destino, el envío va en un servicio de `core/services`, no en el componente.
 - **El formulario pide los datos mínimos** a propósito: ni nombre del menor, ni fecha exacta de nacimiento, ni domicilio. Ver la Enmienda 1 del ADR antes de añadir campos.
 
+## Ficheros estáticos: fotos y documentos
+
+Todo lo que hay en `public/` se publica tal cual en la raíz de la web: `public/documentos/x.pdf` se sirve en `/documentos/x.pdf`. Por eso aquí no va nada que no deba ser público, y por eso esta explicación está en este README y no en uno dentro de `public/`, que también se publicaría.
+
+| Carpeta | Qué va | Quién la mantiene |
+|---|---|---|
+| `public/img/portada/` | Foto principal de la portada | El front, siempre |
+| `public/img/asociaciones/` | Logos del pie | El front, siempre |
+| `public/documentos/` | PDF descargables de `/documentos` (plantillas en blanco) | El front **hasta la fase 3** |
+
+**Fotos.** Se quedan en el front también en el futuro: son pocas, cambian poco y no necesitan backend.
+
+- Antes de subir una foto de educandos, confirma que todos los que salen tienen firmada la autorización de imagen. Ante la duda, de espaldas o sin caras.
+- Formato WebP, a 1600 px de ancho como mucho, más una versión de 800 px para móvil (`srcset`). El original del móvil (HEIC, 4000+ px) no se sube nunca: pesa demasiado y deja ampliar caras.
+- Sin metadatos: las fotos del móvil llevan la ubicación GPS en el EXIF. Al convertir con `sharp`, los metadatos se quitan por defecto.
+- Nombre en minúsculas, sin espacios ni tildes, con año: `campamento-2026-1600.webp`.
+
+**Documentos.** Hoy el PDF se copia a `public/documentos/` y se añade a mano a la lista de `documentos.page.ts`. Es provisional. **En la fase 3 los documentos irán asociados a una base de datos**: el fichero en un almacenamiento del backend y sus datos (título, descripción, categoría, tamaño, fecha, quién lo subió) en una tabla, servidos por la API de Spring Boot. Entonces la lista sale de `documentos.page.ts` hacia un `DocumentosService` de `core/services`, que es el único que sabe de dónde vienen; la página no cambia. Mientras tanto:
+
+- Solo plantillas en blanco. Nunca un documento ya relleno o firmado: lleva datos de menores.
+- Nombre en minúsculas y con guiones (`autorizacion-generica.pdf`), sin versiones en el nombre (`-v3`, `-nadino3`): la URL tiene que seguir valiendo cuando se actualice el documento.
+
 ## Estructura objetivo
 
 ```

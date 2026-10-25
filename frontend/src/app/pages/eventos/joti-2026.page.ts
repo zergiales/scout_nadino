@@ -77,7 +77,7 @@ export const routeMeta: RouteMeta = {
           class="absolute inset-8 -z-10 rounded-full bg-marca/30 blur-3xl"
         ></div>
         <div
-          class="rounded-3xl border border-white/70 bg-white/50 p-4 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-6"
+          class="rounded-3xl border border-superficie/70 bg-superficie/50 p-4 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-6"
         >
           <app-mapa-conexiones />
         </div>
@@ -118,7 +118,7 @@ export const routeMeta: RouteMeta = {
       <p class="mt-8 mb-0">
         <a
           routerLink="/preinscripcion"
-          class="inline-block rounded-lg bg-marca px-6 py-3 font-bold text-white no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+          class="inline-block rounded-lg bg-marca px-6 py-3 font-bold text-sobre-marca no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
         >
           ¿Quieres vivirlo el año que viene? Haz la preinscripción
         </a>

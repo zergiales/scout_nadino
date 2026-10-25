@@ -78,7 +78,7 @@ import { RouterLink } from '@angular/router';
               <a
                 [href]="asociacion.url"
                 rel="noopener noreferrer"
-                class="block rounded-lg transition duration-300 ease-suave hover:opacity-80 motion-safe:hover:-translate-y-0.5"
+                class="block rounded-lg transition duration-300 ease-suave hover:opacity-80 motion-safe:hover:-translate-y-0.5 oscuro:bg-white oscuro:p-2"
               >
                 <img
                   [src]="asociacion.logo"
@@ -98,6 +98,8 @@ import { RouterLink } from '@angular/router';
 })
 export class Footer {
   // Logos descargados de la web de cada asociación (public/img/asociaciones).
+  // Tienen letras oscuras sobre fondo transparente: en el tema oscuro van
+  // sobre una placa blanca (oscuro:bg-white) para que se lean.
   protected readonly asociaciones = [
     {
       nombre: 'Scouts MSC, Movimiento Scout Católico',

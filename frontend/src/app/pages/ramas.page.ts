@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
 
@@ -47,9 +48,12 @@ interface Rama {
 
     <ul class="mt-8 flex list-none flex-col gap-4 p-0">
       @for (rama of ramas; track rama.slug) {
-        <li class="aparece-al-scroll" [style.--c]="rama.color">
+        <!-- id = slug: la portada enlaza a /ramas#castores, etc. El router
+             baja hasta aquí y [open] despliega esa rama. -->
+        <li class="aparece-al-scroll" [id]="rama.slug" [style.--c]="rama.color">
           <details
-            class="desplegable group relative overflow-hidden rounded-3xl border border-white/80 bg-white/60 shadow-sm backdrop-blur-xl transition-shadow duration-500 ease-suave open:shadow-[0_20px_40px_-16px_color-mix(in_srgb,var(--c)_70%,transparent)] hover:shadow-md"
+            [open]="rama.slug === ancla()"
+            class="desplegable group relative overflow-hidden rounded-3xl border border-superficie/80 bg-superficie/60 shadow-sm backdrop-blur-xl transition-shadow duration-500 ease-suave open:shadow-[0_20px_40px_-16px_color-mix(in_srgb,var(--c)_70%,transparent)] hover:shadow-md"
           >
             <div
               aria-hidden="true"
@@ -113,7 +117,7 @@ interface Rama {
       </p>
       <a
         routerLink="/preinscripcion"
-        class="mt-5 inline-block rounded-lg bg-marca px-6 py-3 font-bold text-white no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+        class="mt-5 inline-block rounded-lg bg-marca px-6 py-3 font-bold text-sobre-marca no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
       >
         Hacer la preinscripción
       </a>
@@ -121,6 +125,11 @@ interface Rama {
   `,
 })
 export default class RamasPage {
+  /** Rama pedida en la URL (#castores…), o null. */
+  protected readonly ancla = toSignal(inject(ActivatedRoute).fragment, {
+    initialValue: null,
+  });
+
   protected readonly ramas: Rama[] = [
     {
       slug: 'castores',

@@ -78,7 +78,7 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
         </ol>
       } @else {
         <div
-          class="mt-6 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-marca/40 bg-white/50 px-6 py-12 text-center backdrop-blur-xl"
+          class="mt-6 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-marca/40 bg-superficie/50 px-6 py-12 text-center backdrop-blur-xl"
         >
           <svg
             viewBox="0 0 24 24"
@@ -128,7 +128,7 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
 
     <ng-template #tarjeta let-evento let-pasado="pasado">
       <article
-        class="flex gap-5 rounded-3xl border border-white/80 bg-white/60 p-5 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg sm:p-6"
+        class="flex gap-5 rounded-3xl border border-superficie/80 bg-superficie/60 p-5 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg sm:p-6"
       >
         <!-- Hoja de calendario con el día y el mes -->
         <div
@@ -136,12 +136,12 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
           class="flex w-16 shrink-0 flex-col self-start overflow-hidden rounded-2xl text-center shadow-sm ring-1 ring-tinta/10 sm:w-20"
         >
           <span
-            class="py-1 text-xs font-bold tracking-wide text-white uppercase"
+            class="py-1 text-xs font-bold tracking-wide text-sobre-marca uppercase"
             [class]="pasado ? 'bg-tinta-suave' : 'bg-marca'"
           >
             {{ mesCorto(evento.inicio) }}
           </span>
-          <span class="bg-white py-2 text-2xl font-extrabold text-tinta sm:text-3xl">
+          <span class="bg-superficie py-2 text-2xl font-extrabold text-tinta sm:text-3xl">
             {{ dia(evento.inicio) }}
           </span>
         </div>
@@ -166,7 +166,7 @@ const RAMAS: Record<string, { nombre: string; color: string }> = {
             }
             @for (slug of evento.ramas; track slug) {
               <li
-                class="flex items-center gap-1.5 rounded-full bg-white px-3 py-0.5 text-xs font-bold text-tinta ring-1 ring-tinta/10"
+                class="flex items-center gap-1.5 rounded-full bg-superficie px-3 py-0.5 text-xs font-bold text-tinta ring-1 ring-tinta/10"
               >
                 <span
                   aria-hidden="true"

@@ -48,7 +48,7 @@ export const routeMeta: RouteMeta = {
         @for (dato of datos; track dato.titulo) {
           <section
             [attr.aria-labelledby]="'dato-' + dato.id"
-            class="flex gap-4 rounded-3xl border border-white/80 bg-white/60 p-5 shadow-sm backdrop-blur-xl"
+            class="flex gap-4 rounded-3xl border border-superficie/80 bg-superficie/60 p-5 shadow-sm backdrop-blur-xl"
           >
             <span
               class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-marca-suave"
@@ -90,7 +90,7 @@ export const routeMeta: RouteMeta = {
       <!-- Mapa -->
       <section
         aria-labelledby="titulo-mapa"
-        class="flex flex-col rounded-3xl border border-white/80 bg-white/60 p-3 shadow-sm backdrop-blur-xl md:col-span-3"
+        class="flex flex-col rounded-3xl border border-superficie/80 bg-superficie/60 p-3 shadow-sm backdrop-blur-xl md:col-span-3"
       >
         <h2 id="titulo-mapa" class="sr-only">En el mapa</h2>
         <iframe
@@ -118,7 +118,7 @@ export const routeMeta: RouteMeta = {
       </h2>
       <dl class="mt-6 grid gap-4 sm:grid-cols-2">
         <div
-          class="aparece-al-scroll rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="aparece-al-scroll rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-lg font-bold text-tinta">
             Quiero apuntar a mi hijo o hija
@@ -130,7 +130,7 @@ export const routeMeta: RouteMeta = {
           </dd>
         </div>
         <div
-          class="aparece-al-scroll rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="aparece-al-scroll rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-lg font-bold text-tinta">
             Quiero ser monitor o monitora
@@ -140,7 +140,7 @@ export const routeMeta: RouteMeta = {
           </dd>
         </div>
         <div
-          class="aparece-al-scroll rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="aparece-al-scroll rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-lg font-bold text-tinta">
             Soy antiguo miembro del grupo
@@ -150,7 +150,7 @@ export const routeMeta: RouteMeta = {
           </dd>
         </div>
         <div
-          class="aparece-al-scroll rounded-3xl border border-white/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+          class="aparece-al-scroll rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-lg font-bold text-tinta">
             Quiero avisar de un problema con esta web

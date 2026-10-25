@@ -21,7 +21,7 @@ import { Footer } from './layout/footer';
     <div class="flex min-h-dvh flex-col overflow-x-clip">
       <a
         href="#contenido"
-        class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-marca focus:px-4 focus:py-2 focus:font-semibold focus:text-white"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-marca focus:px-4 focus:py-2 focus:font-semibold focus:text-sobre-marca"
       >
         Saltar al contenido principal
       </a>

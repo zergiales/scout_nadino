@@ -50,7 +50,7 @@ export const routeMeta: RouteMeta = {
       <p class="mt-8 flex flex-wrap gap-3">
         <a
           routerLink="/preinscripcion"
-          class="rounded-lg bg-marca px-5 py-3 font-bold text-white no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+          class="rounded-lg bg-marca px-5 py-3 font-bold text-sobre-marca no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
         >
           Quiero apuntar a mi hijo o hija
         </a>
@@ -58,7 +58,7 @@ export const routeMeta: RouteMeta = {
              derecha y entra una flecha. -->
         <a
           routerLink="/conocenos"
-          class="group relative isolate inline-flex items-center gap-2 overflow-hidden rounded-lg border-2 border-marca bg-white/50 px-5 py-3 font-bold text-marca no-underline backdrop-blur-md transition-colors duration-500 ease-suave before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-marca before:transition-transform before:duration-500 before:ease-suave hover:text-white hover:before:scale-x-100"
+          class="group relative isolate inline-flex items-center gap-2 overflow-hidden rounded-lg border-2 border-marca bg-superficie/50 px-5 py-3 font-bold text-marca no-underline backdrop-blur-md transition-colors duration-500 ease-suave before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-marca before:transition-transform before:duration-500 before:ease-suave hover:text-sobre-marca hover:before:scale-x-100"
         >
           Conócenos
           <svg
@@ -77,32 +77,26 @@ export const routeMeta: RouteMeta = {
       </p>
 
       <!--
-        Hueco para la foto del grupo. Cuando la haya, sustituye este div por:
-          <img src="/img/portada/grupo.webp" alt="(qué se ve en la foto)"
-               width="1600" height="686"
-               class="mt-10 aspect-video w-full rounded-3xl object-cover shadow-xl sm:aspect-[21/9]" />
-        Solo con autorización de imagen firmada de todos los que salgan; ante
-        la duda, de espaldas o sin caras.
+        Foto del campamento 2026. Todos los que salen tienen firmada la
+        autorización de imagen (confirmado por el grupo). Va recortada y a
+        1600 px como mucho, sin EXIF: suficiente para la portada, sin la
+        resolución original que permitiría ampliar caras. Es la imagen más
+        grande de la página, así que carga con prioridad y sin lazy.
+        object-position baja el encuadre para que en 21:9 no se corte el grupo.
       -->
-      <div
-        class="mt-10 flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-3xl border border-white/70 bg-white/40 text-marca shadow-xl shadow-marca/10 backdrop-blur-xl sm:aspect-[21/9]"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="h-12 w-12 fill-none stroke-current"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
-          />
-          <circle cx="12" cy="13" r="3" />
-        </svg>
-        <p class="m-0 font-semibold">Aquí irá la foto del grupo</p>
-      </div>
+      <img
+        src="/img/portada/campamento-2026-1600.webp"
+        srcset="
+          /img/portada/campamento-2026-800.webp   800w,
+          /img/portada/campamento-2026-1600.webp 1600w
+        "
+        sizes="(min-width: 1024px) 1024px, 100vw"
+        alt="El grupo al completo, con camisas de colores de cada sección, posando en un claro de pinar del campamento de 2026 bajo un mástil de troncos con banderas."
+        width="1600"
+        height="914"
+        fetchpriority="high"
+        class="mt-10 aspect-video w-full rounded-3xl object-cover object-[50%_85%] shadow-xl shadow-marca/10 sm:aspect-[21/9]"
+      />
     </section>
 
     <!-- Inscripciones abiertas -->
@@ -113,11 +107,11 @@ export const routeMeta: RouteMeta = {
       ></div>
 
       <div
-        class="grid items-center gap-8 rounded-3xl border border-white/70 bg-white/50 p-6 shadow-xl ring-1 shadow-marca/10 ring-marca/10 backdrop-blur-xl sm:p-10 md:grid-cols-[1fr_auto]"
+        class="grid items-center gap-8 rounded-3xl border border-superficie/70 bg-superficie/50 p-6 shadow-xl ring-1 shadow-marca/10 ring-marca/10 backdrop-blur-xl sm:p-10 md:grid-cols-[1fr_auto]"
       >
         <div>
           <p
-            class="m-0 inline-block rounded-full bg-marca px-3 py-1 text-sm font-bold text-white"
+            class="m-0 inline-block rounded-full bg-marca px-3 py-1 text-sm font-bold text-sobre-marca"
           >
             Ronda 2026-2027
           </p>
@@ -153,7 +147,7 @@ export const routeMeta: RouteMeta = {
 
         <a
           routerLink="/preinscripcion"
-          class="justify-self-start rounded-lg bg-marca px-6 py-4 text-lg font-bold text-white no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro md:justify-self-end motion-safe:hover:-translate-y-0.5"
+          class="justify-self-start rounded-lg bg-marca px-6 py-4 text-lg font-bold text-sobre-marca no-underline shadow-lg shadow-marca/25 transition hover:bg-marca-oscuro md:justify-self-end motion-safe:hover:-translate-y-0.5"
         >
           Hacer la preinscripción
         </a>
@@ -189,14 +183,14 @@ export const routeMeta: RouteMeta = {
               <a
                 [href]="modalidad.url"
                 rel="noopener noreferrer"
-                class="group flex items-center gap-4 rounded-2xl border border-marca/15 bg-marca-suave p-4 no-underline transition duration-500 ease-suave hover:border-marca hover:bg-white hover:shadow-lg hover:shadow-marca/15 motion-safe:hover:-translate-y-0.5"
+                class="group flex items-center gap-4 rounded-2xl border border-marca/15 bg-marca-suave p-4 no-underline transition duration-500 ease-suave hover:border-marca hover:bg-superficie hover:shadow-lg hover:shadow-marca/15 motion-safe:hover:-translate-y-0.5"
               >
                 <span
-                  class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white transition-colors duration-500 ease-suave group-hover:bg-marca"
+                  class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-superficie transition-colors duration-500 ease-suave group-hover:bg-marca"
                 >
                   <svg
                     viewBox="0 0 24 24"
-                    class="h-5 w-5 fill-none stroke-marca transition-colors duration-500 ease-suave group-hover:stroke-white"
+                    class="h-5 w-5 fill-none stroke-marca transition-colors duration-500 ease-suave group-hover:stroke-sobre-marca"
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -248,7 +242,7 @@ export const routeMeta: RouteMeta = {
           class="absolute inset-8 -z-10 rounded-full bg-marca/30 blur-3xl"
         ></div>
         <div
-          class="rounded-3xl border border-white/70 bg-white/50 p-4 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-6"
+          class="rounded-3xl border border-superficie/70 bg-superficie/50 p-4 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-6"
         >
           <app-mapa-conexiones />
         </div>
@@ -278,16 +272,19 @@ export const routeMeta: RouteMeta = {
       </p>
 
       <!--
-        Tarjetas de cristal blanco con el color de la rama en un punto y un
-        halo. El <li> aparece al hacer scroll; el hover (elevarse y crecer un
-        poco) va en el <div> de dentro, porque la animación de aparición pisa
+        Tarjetas de cristal con el color de la rama en un punto y un halo.
+        Cada una es un enlace a /ramas#<slug>, que baja hasta esa rama y la
+        abre. El <li> aparece al hacer scroll; el hover (elevarse y crecer un
+        poco) va en el <a> de dentro, porque la animación de aparición pisa
         cualquier transform del propio <li>.
       -->
       <ul class="mt-6 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-5">
         @for (seccion of secciones; track seccion.slug) {
           <li class="aparece-al-scroll" [style.--c]="seccion.color">
-            <div
-              class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/60 p-5 text-tinta shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:bg-white/80 hover:shadow-[0_20px_40px_-12px_color-mix(in_srgb,var(--c)_70%,transparent)] motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.02]"
+            <a
+              routerLink="/ramas"
+              [fragment]="seccion.slug"
+              class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-superficie/80 bg-superficie/60 p-5 text-tinta no-underline shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:bg-superficie/80 hover:shadow-[0_20px_40px_-12px_color-mix(in_srgb,var(--c)_70%,transparent)] motion-safe:hover:-translate-y-1.5 motion-safe:hover:scale-[1.02]"
             >
               <div
                 aria-hidden="true"
@@ -303,7 +300,13 @@ export const routeMeta: RouteMeta = {
               <p class="mt-1 mb-0 text-sm text-tinta-suave">
                 {{ seccion.edades }} años
               </p>
-            </div>
+              <span
+                aria-hidden="true"
+                class="mt-auto pt-4 text-sm font-bold text-marca opacity-0 transition duration-500 ease-suave group-hover:opacity-100 group-focus-visible:opacity-100 motion-safe:-translate-x-1 motion-safe:group-hover:translate-x-0"
+              >
+                Ver rama →
+              </span>
+            </a>
           </li>
         }
       </ul>
@@ -322,7 +325,7 @@ export const routeMeta: RouteMeta = {
         class="absolute inset-x-1/4 inset-y-4 -z-10 rounded-full bg-marca/30 blur-3xl"
       ></div>
       <div
-        class="rounded-3xl border border-white/70 bg-white/50 px-6 py-12 text-center shadow-xl shadow-marca/10 backdrop-blur-xl"
+        class="rounded-3xl border border-superficie/70 bg-superficie/50 px-6 py-12 text-center shadow-xl shadow-marca/10 backdrop-blur-xl"
       >
         <h2 id="titulo-unete" class="m-0 text-3xl font-extrabold text-marca">
           ¿Os unís a la aventura?
@@ -333,7 +336,7 @@ export const routeMeta: RouteMeta = {
         </p>
         <a
           routerLink="/preinscripcion"
-          class="mt-6 inline-block rounded-lg bg-marca px-8 py-4 text-lg font-bold text-white no-underline shadow-lg shadow-marca/30 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+          class="mt-6 inline-block rounded-lg bg-marca px-8 py-4 text-lg font-bold text-sobre-marca no-underline shadow-lg shadow-marca/30 transition hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
         >
           Hacer la preinscripción
         </a>

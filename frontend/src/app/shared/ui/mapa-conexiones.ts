@@ -42,7 +42,7 @@ interface Punto {
         <g aria-hidden="true">
           <!-- Globo -->
           <g class="fill-none stroke-marca/25" stroke-width="1.5">
-            <circle cx="180" cy="145" r="110" class="fill-white" />
+            <circle cx="180" cy="145" r="110" class="fill-superficie" />
             <ellipse cx="180" cy="145" rx="40" ry="110" />
             <ellipse cx="180" cy="145" rx="80" ry="110" />
             <line x1="180" y1="35" x2="180" y2="255" />
@@ -108,12 +108,12 @@ interface Punto {
             >
               <svg:circle
                 r="26"
-                class="fill-white stroke-marca transition-colors duration-500 ease-suave group-hover:fill-marca"
+                class="fill-superficie stroke-marca transition-colors duration-500 ease-suave group-hover:fill-marca"
                 stroke-width="2.5"
               />
               <svg:g
                 transform="translate(-12 -12)"
-                class="fill-none stroke-marca transition-colors duration-500 ease-suave group-hover:stroke-white"
+                class="fill-none stroke-marca transition-colors duration-500 ease-suave group-hover:stroke-sobre-marca"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -165,7 +165,7 @@ interface Punto {
                 class="transition-colors duration-300"
                 [class]="
                   i === seleccionado()
-                    ? 'fill-marca stroke-white'
+                    ? 'fill-marca stroke-superficie'
                     : 'fill-acento stroke-marca-oscuro'
                 "
                 stroke-width="2"
@@ -181,7 +181,7 @@ interface Punto {
 
       <figcaption
         aria-live="polite"
-        class="mt-3 min-h-20 rounded-2xl bg-white/70 px-4 py-3 text-center"
+        class="mt-3 min-h-20 rounded-2xl bg-superficie/70 px-4 py-3 text-center"
       >
         @if (elegido(); as punto) {
           <span class="block text-2xl font-extrabold text-marca">

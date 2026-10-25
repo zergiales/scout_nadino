@@ -61,7 +61,7 @@ interface Documento {
             @for (doc of deCategoria(categoria.id); track doc.fichero) {
               <li class="aparece-al-scroll">
                 <article
-                  class="flex h-full gap-4 rounded-3xl border border-white/80 bg-white/60 p-5 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg"
+                  class="flex h-full gap-4 rounded-3xl border border-superficie/80 bg-superficie/60 p-5 shadow-sm backdrop-blur-xl transition duration-500 ease-suave hover:shadow-lg"
                 >
                   <span
                     class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-marca-suave"
@@ -95,7 +95,7 @@ interface Documento {
                       <a
                         [href]="doc.fichero"
                         download
-                        class="group inline-flex items-center gap-2 rounded-lg bg-marca px-4 py-2 font-bold text-white no-underline shadow-md shadow-marca/20 transition duration-300 ease-suave hover:bg-marca-oscuro"
+                        class="group inline-flex items-center gap-2 rounded-lg bg-marca px-4 py-2 font-bold text-sobre-marca no-underline shadow-md shadow-marca/20 transition duration-300 ease-suave hover:bg-marca-oscuro"
                       >
                         <svg
                           viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ interface Documento {
           </ul>
         } @else {
           <p
-            class="mt-5 mb-0 rounded-3xl border border-dashed border-marca/40 bg-white/40 px-6 py-6 text-tinta-suave"
+            class="mt-5 mb-0 rounded-3xl border border-dashed border-marca/40 bg-superficie/40 px-6 py-6 text-tinta-suave"
           >
             Todavía no hay documentos en este apartado.
           </p>
@@ -168,17 +168,21 @@ export default class DocumentosPage {
     },
   ] as const;
 
-  // Datos provisionales: el grupo facilitará los documentos. Ejemplo de
-  // entrada, con el PDF copiado en public/documentos/:
-  //   {
-  //     titulo: 'Autorización de salidas',
-  //     descripcion: 'Para las salidas de un día durante la ronda.',
-  //     fichero: '/documentos/autorizacion-salidas.pdf',
-  //     formato: 'PDF',
-  //     tamano: '120 KB',
-  //     categoria: 'autorizaciones',
-  //   },
-  private readonly documentos: Documento[] = [];
+  // Los PDF viven en public/documentos/ y esta lista se mantiene a mano.
+  // Es provisional: en la fase 3 los documentos pasan a una base de datos y
+  // esta página los pedirá a un servicio de core/services (ver
+  // frontend/README.md, «Ficheros estáticos»).
+  private readonly documentos: Documento[] = [
+    {
+      titulo: 'Autorización genérica',
+      descripcion:
+        'Permiso para las reuniones, salidas y actividades de toda la ronda solar, con el consentimiento de protección de datos y de uso de imagen. Se imprime, se firma y se entrega al kraal.',
+      fichero: '/documentos/autorizacion-generica.pdf',
+      formato: 'PDF',
+      tamano: '120 KB',
+      categoria: 'autorizaciones',
+    },
+  ];
 
   protected deCategoria(id: Documento['categoria']): Documento[] {
     return this.documentos.filter((doc) => doc.categoria === id);

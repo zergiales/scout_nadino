@@ -32,7 +32,7 @@ interface ErrorResumen {
         class="absolute -top-10 -left-20 -z-10 h-72 w-72 rounded-full bg-marca/25 blur-3xl"
       ></div>
       <p
-        class="m-0 inline-block rounded-full bg-marca px-3 py-1 text-sm font-bold text-white"
+        class="m-0 inline-block rounded-full bg-marca px-3 py-1 text-sm font-bold text-sobre-marca"
       >
         Ronda 2026-2027
       </p>
@@ -54,7 +54,7 @@ interface ErrorResumen {
       ></div>
 
       <div
-        class="rounded-3xl border border-white/80 bg-white/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8 lg:col-span-2"
+        class="rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-xl shadow-marca/10 backdrop-blur-xl sm:p-8 lg:col-span-2"
       >
         @if (enviado()) {
           <p
@@ -213,7 +213,7 @@ interface ErrorResumen {
 
           <button
             type="submit"
-            class="group inline-flex items-center gap-2 self-start rounded-xl bg-marca px-6 py-4 text-lg font-bold text-white shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
+            class="group inline-flex items-center gap-2 self-start rounded-xl bg-marca px-6 py-4 text-lg font-bold text-sobre-marca shadow-lg shadow-marca/25 transition duration-500 ease-suave hover:bg-marca-oscuro motion-safe:hover:-translate-y-0.5"
           >
             Enviar la preinscripción
             <svg
@@ -245,7 +245,7 @@ interface ErrorResumen {
             <li class="flex gap-4">
               <span
                 aria-hidden="true"
-                class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-marca font-bold text-white"
+                class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-marca font-bold text-sobre-marca"
               >
                 {{ i + 1 }}
               </span>
@@ -275,7 +275,7 @@ export default class PreinscripcionPage {
 
   /** Mismo aspecto para todos los campos de texto; en rojo si tienen error. */
   protected readonly claseCampo =
-    'w-full rounded-xl border-2 border-borde bg-white/80 px-4 py-3 text-tinta transition-colors duration-300 ease-suave hover:border-marca-claro focus:border-marca aria-invalid:border-error aria-invalid:bg-error-suave';
+    'w-full rounded-xl border-2 border-borde bg-superficie/80 px-4 py-3 text-tinta transition-colors duration-300 ease-suave hover:border-marca-claro focus:border-marca aria-invalid:border-error aria-invalid:bg-error-suave';
 
   protected readonly pasos = [
     { titulo: 'Rellenas este formulario', texto: 'Son dos minutos.' },
