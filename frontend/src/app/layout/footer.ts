@@ -27,6 +27,9 @@ import { RouterLink } from '@angular/router';
           <ul class="mt-3 flex list-none flex-col gap-2 p-0 text-sm">
             <li><a routerLink="/contacto" class="text-marca">Contacto</a></li>
             <li>
+              <a routerLink="/documentos" class="text-marca">Documentos</a>
+            </li>
+            <li>
               <a routerLink="/preinscripcion" class="text-marca">
                 Preinscripción
               </a>

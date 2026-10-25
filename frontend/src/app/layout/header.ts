@@ -10,8 +10,9 @@ interface EnlaceNav {
 
 /**
  * Cabecera con la navegación principal. La lista de enlaces es la de
- * `docs/frontend/paginas.md` (máximo 6); Noticias y Eventos se añaden cuando
- * existan esas páginas (son P1).
+ * `docs/frontend/paginas.md` (máximo 6). El Jota-Joti salió al entrar
+ * Calendario y ahora se llega a él desde allí; para meter Noticias habrá que
+ * sacar otro enlace.
  *
  * El menú móvil es un toggle propio en vez del CDK: no hace falta overlay ni
  * foco atrapado para una lista de cuatro enlaces, y así no se añade una
@@ -105,7 +106,7 @@ export class Header {
     { ruta: '/', texto: 'Inicio', exacta: true },
     { ruta: '/conocenos', texto: 'Conócenos' },
     { ruta: '/ramas', texto: 'Ramas' },
-    { ruta: '/eventos/joti-2026', texto: 'Jota-Joti' },
+    { ruta: '/eventos', texto: 'Calendario' },
     { ruta: '/contacto', texto: 'Contacto' },
   ];
 

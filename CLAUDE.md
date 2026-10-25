@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Estado del repositorio
 
-El frontend compila a HTML estático: `npm run build` genera **10 rutas prerenderizadas**. `backend/` sigue siendo solo un README reservado para la fase 3.
+El frontend compila a HTML estático: `npm run build` genera **12 rutas prerenderizadas**. `backend/` sigue siendo solo un README reservado para la fase 3.
 
-Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 10 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Jota-Joti 2026, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css` y un componente en `shared/ui/` (`mapa-conexiones`).
+Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 12 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, los cuatro legales y el 404), tokens **provisionales** en `src/styles.css` y un componente en `shared/ui/` (`mapa-conexiones`).
 
 Lo que **todavía no**: `core/` entera (modelos, servicios, SEO), el resto de `shared/ui/`, el CI y el despliegue. `src/content/` está vacía. Antes de dar por hecho un fichero o un comando, comprueba que existe.
 
@@ -58,7 +58,7 @@ Capas, de dentro a fuera: `core/` (modelos, servicios, SEO — sin UI) → `layo
 Todo vive en `frontend/vite.config.ts`:
 
 - **`static: true`** — el build prerenderiza sin producir servidor Nitro, conforme a la decisión 5 del ADR. No lo quites: sin él el despliegue dejaría de ser estático y habría un proceso Node que mantener.
-- **`prerender.routes`** — las 10 rutas actuales. **Hay que añadir cada ruta nueva aquí**, o la página existirá en desarrollo pero no se prerenderizará en el build. Es el fallo más fácil de cometer, y no da ningún error.
+- **`prerender.routes`** — las 12 rutas actuales. **Hay que añadir cada ruta nueva aquí**, o la página existirá en desarrollo pero no se prerenderizará en el build. Es el fallo más fácil de cometer, y no da ningún error.
 - **`content.highlighter: 'shiki'`** y el plugin de Tailwind.
 
 ### Decisiones de implementación que no hay que deshacer sin motivo
