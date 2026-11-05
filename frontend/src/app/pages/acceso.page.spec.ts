@@ -55,10 +55,25 @@ describe('AccesoPage', () => {
     expect(pagina.irA).not.toHaveBeenCalled();
   });
 
-  it('«He olvidado mi contraseña» muestra la ayuda y vuelve a ocultarla', () => {
-    expect(pagina.olvido()).toBe(false);
-    pagina.olvido.set(!pagina.olvido());
-    expect(pagina.olvido()).toBe(true);
+  it('«He olvidado mi contraseña» manda a recuperar la de GitHub, no a pedir una al kraal', () => {
+    const fixture = TestBed.createComponent(AccesoPage);
+    const vista: HTMLElement = fixture.nativeElement;
+    expect(vista.querySelector('#olvido-ayuda [role="status"]')).toBeNull();
+
+    fixture.componentInstance['olvido'].set(true);
+    fixture.detectChanges();
+
+    const enlace = vista.querySelector<HTMLAnchorElement>('#olvido-ayuda a');
+    expect(enlace?.href).toBe('https://github.com/password_reset');
+  });
+
+  it('no deja que el navegador guarde una contraseña que hoy no sirve', () => {
+    const fixture = TestBed.createComponent(AccesoPage);
+    fixture.detectChanges();
+    const vista: HTMLElement = fixture.nativeElement;
+
+    expect(vista.querySelector('#usuario')?.getAttribute('autocomplete')).toBe('off');
+    expect(vista.querySelector('#clave')?.getAttribute('autocomplete')).toBe('off');
   });
 
   it('da un mensaje distinto según el fallo del usuario', async () => {

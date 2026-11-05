@@ -4,7 +4,7 @@ import { AlbumesService } from './albumes.service';
 import { fecha } from './contenido';
 import { DocumentosService } from './documentos.service';
 import { EventosService } from './eventos.service';
-import { NoticiasService } from './noticias.service';
+import { NoticiasService, fotoDePortada } from './noticias.service';
 import { SeccionesService } from './secciones.service';
 
 /*
@@ -85,9 +85,36 @@ describe('Servicios de contenido', () => {
     for (const noticia of noticias) {
       expect(noticia.fecha).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(noticia.resumen).not.toBe('');
-      // Con foto, el texto alternativo es obligatorio (accesibilidad).
-      if (noticia.portada) expect(noticia.portadaAlt).toBeTruthy();
     }
+  });
+
+  it('Noticias: ningún .md trae foto de portada sin su descripción', async () => {
+    // Se mira el fichero en bruto: el servicio ya esconde la foto sin
+    // descripción, y aquí se quiere saber que alguien se la dejó.
+    const frontMatter = (await import('front-matter')).default;
+    const ficheros = import.meta.glob('/src/content/noticias/*.md', {
+      query: '?raw',
+      import: 'default',
+      eager: true,
+    }) as Record<string, string>;
+
+    const sinDescripcion = Object.entries(ficheros)
+      .filter(([, bruto]) => {
+        const { portada, portadaAlt } = frontMatter<Record<string, unknown>>(bruto).attributes;
+        return portada && !portadaAlt;
+      })
+      .map(([fichero]) => fichero);
+    expect(sinDescripcion).toEqual([]);
+  });
+
+  it('fotoDePortada(): sin descripción no hay foto', () => {
+    expect(fotoDePortada({ portada: '/img/a.webp', portadaAlt: 'Tiendas en un pinar' })).toEqual({
+      portada: '/img/a.webp',
+      portadaAlt: 'Tiendas en un pinar',
+    });
+    expect(fotoDePortada({ portada: '/img/a.webp' })).toEqual({});
+    expect(fotoDePortada({ portada: '/img/a.webp', portadaAlt: '' })).toEqual({});
+    expect(fotoDePortada({})).toEqual({});
   });
 
   it('NoticiasService: carga el texto completo ya en HTML, sin el frontmatter', async () => {

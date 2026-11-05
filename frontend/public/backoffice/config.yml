@@ -92,8 +92,9 @@ collections:
         widget: string
         required: false
         hint: >-
-          Obligatoria si pones foto. Qué se ve, para quien no puede verla
-          (p. ej. «Lobatos montando una tienda en un pinar»). Nunca nombres.
+          Obligatoria si pones foto: sin ella, la foto no sale en la web. Qué se
+          ve, para quien no puede verla (p. ej. «Lobatos montando una tienda en
+          un pinar»). Nunca nombres.
       - label: Texto completo
         name: body
         widget: markdown

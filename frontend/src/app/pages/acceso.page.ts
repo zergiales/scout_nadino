@@ -17,7 +17,7 @@ function sinArroba(control: AbstractControl): ValidationErrors | null {
 }
 
 export const routeMeta: RouteMeta = {
-  title: 'Acceso al backoffice · Grupo Scout Nadino',
+  title: 'Acceso Responsables · Grupo Scout Nadino',
   meta: [{ name: 'robots', content: 'noindex' }],
 };
 
@@ -63,10 +63,10 @@ export const routeMeta: RouteMeta = {
           class="mx-auto h-16 w-16 rounded-xl"
         />
         <h1 class="mt-4 mb-0 text-center text-3xl font-extrabold text-marca">
-          Acceso al backoffice
+          Acceso Responsables
         </h1>
         <p class="mt-2 text-center text-tinta-suave">
-          Para el kraal: noticias, calendario y documentos de la web.
+          Para editar las noticias, el calendario y los documentos de la web.
         </p>
 
         @if (rechazado()) {
@@ -95,7 +95,7 @@ export const routeMeta: RouteMeta = {
               id="usuario"
               type="text"
               formControlName="usuario"
-              autocomplete="username"
+              autocomplete="off"
               autocapitalize="none"
               spellcheck="false"
               [attr.aria-invalid]="error('usuario') ? 'true' : null"
@@ -114,11 +114,15 @@ export const routeMeta: RouteMeta = {
           <div class="flex flex-col gap-1.5">
             <label for="clave" class="font-semibold text-tinta">Contraseña</label>
             <div class="relative">
+              <!-- autocomplete="off" en los dos campos mientras sea una puerta:
+                   con username/current-password el gestor de contraseñas
+                   guardaría una clave que no sirve para nada. Vuelven en la
+                   fase 3, cuando la contraseña la compruebe auth-service. -->
               <input
                 id="clave"
                 [type]="verClave() ? 'text' : 'password'"
                 formControlName="clave"
-                autocomplete="current-password"
+                autocomplete="off"
                 [attr.aria-invalid]="error('clave') ? 'true' : null"
                 [attr.aria-describedby]="error('clave') ? 'clave-error' : null"
                 [class]="claseCampo + ' pr-14'"
@@ -180,7 +184,8 @@ export const routeMeta: RouteMeta = {
           <!-- Mientras no exista la fase 3, la que protege es la cuenta de
                GitHub. Se dice aquí para no dar falsa seguridad. -->
           <p class="m-0 text-center text-sm text-tinta-suave">
-            Después el backoffice te pedirá tu cuenta de GitHub para publicar.
+            Después te pediremos tu cuenta de GitHub para publicar. No escribas
+            aquí tu contraseña de GitHub: esa solo se pone en la página de GitHub.
           </p>
         </form>
 
@@ -196,16 +201,22 @@ export const routeMeta: RouteMeta = {
             He olvidado mi contraseña
           </button>
         </p>
-        <!-- Sin backend no hay correo de recuperación que mandar: de momento
-             solo explica a quién pedírsela. -->
+        <!-- Hasta la fase 3 no hay contraseña nuestra que recuperar: la que
+             protege el backoffice es la de GitHub, y se recupera allí. -->
         <div id="olvido-ayuda">
           @if (olvido()) {
             <p
               role="status"
               class="mt-3 mb-0 rounded-r-xl border-l-4 border-marca bg-marca-suave px-4 py-3 text-sm text-tinta"
             >
-              Todavía no se puede recuperar la contraseña desde la web. Pide
-              una nueva a la coordinación del kraal.
+              La contraseña que de verdad protege el backoffice es la de tu
+              cuenta de GitHub. Si la has olvidado,
+              <a
+                href="https://github.com/password_reset"
+                class="font-bold text-marca underline hover:text-marca-oscuro"
+                >recupérala en GitHub</a
+              >. Si todavía no tienes permiso para publicar, pídeselo a la
+              coordinación del kraal.
             </p>
           }
         </div>
