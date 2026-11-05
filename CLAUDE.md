@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 El frontend compila a HTML estático: `npm run build` genera **13 rutas prerenderizadas**. `backend/` sigue siendo solo un README reservado para la fase 3.
 
-Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 13 páginas (portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso (puerta del backoffice), los cuatro legales y el 404), tokens **provisionales** en `src/styles.css`, un componente en `shared/ui/` (`mapa-conexiones`) y la capa `core/` con modelos (`Seccion`, `Evento`, `Documento`, `Noticia`) y sus servicios. Ramas, portada, calendario y documentos ya leen de `src/content/` (secciones, eventos, documentos, noticias). **Las noticias no tienen página propia**: las tres últimas salen en la portada, debajo de la foto, y su texto completo se despliega dentro de la tarjeta (decisión del grupo, 25/10/2026). La de Medinaceli es un ejemplo inventado. El **backoffice** (Sveltia CMS) está en `public/backoffice/` y es una aplicación aparte, no parte de Angular: en local se abre en `/backoffice/index.html` con `npm run dev` (en `/backoffice/` sale el 404 de Analog).
+Lo que **ya existe** en `frontend/`: el proyecto Analog con su configuración, el layout completo (`layout/header.ts` y `layout/footer.ts`, con el shell en `app.ts`), las 13 páginas prerenderizadas (portada, Conócenos, Ramas, Preinscripción, Contacto, Calendario, Jota-Joti 2026, Documentos, Acceso (puerta del backoffice) y los cuatro legales) más el 404 (`[...not-found].page.ts`, que no va en la lista de prerender), tokens **provisionales** en `src/styles.css`, un componente en `shared/ui/` (`mapa-conexiones`) y la capa `core/` con modelos (`Seccion`, `Evento`, `Documento`, `Noticia`, `Album`) y sus servicios. Ramas, portada, calendario y documentos ya leen de `src/content/` (secciones, eventos, documentos, noticias y álbumes; los álbumes de fotos son enlaces a Google Drive y salen en Documentos). **Las noticias no tienen página propia**: las tres últimas salen en la portada, debajo de la foto, y su texto completo se despliega dentro de la tarjeta (decisión del grupo, 25/10/2026). La de Medinaceli es un ejemplo inventado. El **backoffice** (Sveltia CMS) está en `public/backoffice/` y es una aplicación aparte, no parte de Angular: en local se abre en `/backoffice/index.html` con `npm run dev` (en `/backoffice/` sale el 404 de Analog) y, en Chrome o Edge, «Trabajar con el repositorio local» escribe los `.md` directamente en el proyecto, sin login. Sus colecciones están en `public/backoffice/config.yml`: si cambias el frontmatter de un modelo, cambia también ahí el campo correspondiente.
 
 Lo que **todavía no**: `core/seo`, el resto de `shared/ui/`, el login real del backoffice (falta el autenticador de GitHub, [ADR-0003](docs/adr/0003-cms-y-acceso-de-editores.md)), el CI y el despliegue. Conócenos, Contacto, Preinscripción, Jota-Joti y los legales siguen con el texto dentro del componente. Antes de dar por hecho un fichero o un comando, comprueba que existe.
 
@@ -35,12 +35,14 @@ Para ejecutar **un solo test**: `npm test -- --run src/app/app.spec.ts`, o `-t "
 
 Todavía no hay `lint`, axe ni Lighthouse: los define la tarea 0.7. Cuando existan, documéntalos aquí.
 
+Para enseñar la web sin desplegarla (build + `preview` + túnel de `cloudflared`), sigue [`docs/frontend/compartir-con-tunel.md`](docs/frontend/compartir-con-tunel.md).
+
 ## Arquitectura
 
 Tres fases, con la fase 1 en curso:
 
 1. **Web pública estática** — Angular 22 + Analog prerenderizado a HTML, contenido en Markdown bajo `frontend/src/content`, hosting estático gratuito (Cloudflare Pages/Netlify).
-2. **Decap CMS** sobre ese mismo Markdown, para que el kraal edite sin PRs.
+2. **CMS Git** sobre ese mismo Markdown, para que el kraal edite sin PRs. El ADR-0001 y el plan de trabajo dicen Decap, pero el [ADR-0003](docs/adr/0003-cms-y-acceso-de-editores.md) eligió **Sveltia** (misma `config.yml`; Decap queda de plan B).
 3. **Backend** Spring Boot 4 + Java 25, Maven multimódulo: `auth-service` (OAuth2/JWT para monitores) y API de inscripciones/área privada.
 
 La decisión clave que explica casi todo el diseño: **la capa de servicios de `core/services` es la única frontera con el origen de datos.** Hoy esos servicios leen Markdown de `src/content`; en la fase 3 llamarán a la API de Spring Boot con `HttpClient`. Por eso ningún componente ni página lee contenido directamente — siempre `inject(NoticiasService)` y similares. Si una página importa contenido por su cuenta, el cambio de fase deja de ser local y el diseño se rompe.
@@ -90,7 +92,9 @@ El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona.
 
 Prioridades: **P0** = MVP (Inicio, Conócenos, Ramas, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
 
-**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, correo del grupo (en la web antigua está puesto como imagen), horario de reuniones, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
+**Datos ya confirmados** (en `core/grupo.ts`): el correo del grupo, `info@scoutsnadino.es`; el año de fundación, 2011; y el horario de reuniones, todos los sábados de 11:30 a 13:35. Lugares de campamento: Fuente la Teja, Fuente el Berro y la sierra de Gredos.
+
+**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
 
 ## Flujo de trabajo
 

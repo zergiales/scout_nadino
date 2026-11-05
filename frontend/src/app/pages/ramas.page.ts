@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { HORARIO_REUNIONES } from '../core/grupo';
 import { SeccionesService } from '../core/services/secciones.service';
 
 
@@ -88,8 +89,7 @@ export const routeMeta: RouteMeta = {
                 }
               </ul>
               <p class="mt-4 mb-0 text-sm text-tinta-suave">
-                <strong class="text-tinta">Reuniones:</strong> pendiente de
-                confirmar.
+                <strong class="text-tinta">Reuniones:</strong> {{ horario }}.
               </p>
             </div>
           </details>
@@ -118,6 +118,8 @@ export const routeMeta: RouteMeta = {
   `,
 })
 export default class RamasPage {
+  protected readonly horario = HORARIO_REUNIONES;
+
   /** Rama pedida en la URL (#castores…), o null. */
   protected readonly ancla = toSignal(inject(ActivatedRoute).fragment, {
     initialValue: null,

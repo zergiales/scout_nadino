@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { ANYO_FUNDACION, HORARIO_REUNIONES } from '../core/grupo';
 
 export const routeMeta: RouteMeta = {
   title: 'Conócenos · Grupo Scout Nadino',
 };
 
 /**
- * Conócenos. Solo lleva lo que ya se sabe (asociación, local, método scout,
- * que es común a todos los grupos); la historia y el kraal esperan al texto
- * del grupo. El contenido definitivo viene de
+ * Conócenos. Solo lleva lo que ya se sabe (asociación, local, fundación,
+ * lugares de campamento y método scout, que es común a todos los grupos); la
+ * presentación del kraal espera al texto del grupo. El contenido definitivo viene de
  * `src/content/paginas/conocenos.md` a través de un servicio (tarea 0.4).
  */
 @Component({
@@ -30,7 +31,7 @@ export const routeMeta: RouteMeta = {
         Conócenos
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-tinta-suave sm:text-xl">
-        Somos un grupo scout de Azuqueca de Henares. Chicos y chicas de 6 a 21
+        Somos un grupo scout de Azuqueca de Henares, desde {{ anyoFundacion }}. Chicos y chicas de 6 a 21
         años que aprenden jugando, en equipo y en la naturaleza, acompañados
         por un equipo de monitores voluntarios.
       </p>
@@ -110,19 +111,23 @@ export const routeMeta: RouteMeta = {
             Dónde nos reunimos
           </dt>
           <dd class="mt-2 mb-0 text-lg text-tinta">
-            En la Parroquia de la Santa Cruz, en Azuqueca de Henares.
+            En la Parroquia de la Santa Cruz, en Azuqueca de Henares,
+            {{ horario }}.
             <a routerLink="/contacto" class="mt-1 block text-base font-bold text-marca">
               Cómo llegar
             </a>
           </dd>
         </div>
         <div
-          class="rounded-3xl border border-dashed border-marca/40 bg-superficie/40 p-6 backdrop-blur-xl"
+          class="rounded-3xl border border-superficie/80 bg-superficie/60 p-6 shadow-sm backdrop-blur-xl"
         >
           <dt class="text-sm font-bold tracking-wide text-marca uppercase">
             Nuestra historia
           </dt>
-          <dd class="mt-2 mb-0 text-tinta-suave">Pendiente del kraal.</dd>
+          <dd class="mt-2 mb-0 text-lg text-tinta">
+            El grupo se fundó en {{ anyoFundacion }}. Hemos acampado en Fuente
+            la Teja, Fuente el Berro y la sierra de Gredos.
+          </dd>
         </div>
         <div
           class="rounded-3xl border border-dashed border-marca/40 bg-superficie/40 p-6 backdrop-blur-xl"
@@ -166,6 +171,9 @@ export const routeMeta: RouteMeta = {
   `,
 })
 export default class ConocenosPage {
+  protected readonly anyoFundacion = ANYO_FUNDACION;
+  protected readonly horario = HORARIO_REUNIONES;
+
   // Iconos con el trazo de Lucide (ISC).
   protected readonly metodo = [
     {

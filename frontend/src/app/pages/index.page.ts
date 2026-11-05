@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
+import { ANYO_FUNDACION, HORARIO_REUNIONES } from '../core/grupo';
 import { Noticia } from '../core/models/noticia';
 import { NoticiasService } from '../core/services/noticias.service';
 import { SeccionesService } from '../core/services/secciones.service';
@@ -46,8 +47,9 @@ export const routeMeta: RouteMeta = {
         Grupo Scout Nadino
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-tinta-suave sm:text-xl">
-        Educación en el tiempo libre, en la naturaleza y en grupo, para chicos y
-        chicas de 6 a 21 años.
+        Scouts en Azuqueca de Henares desde {{ anyoFundacion }}, para chicos y
+        chicas de 6 a 21 años. Nos vemos {{ horario }} en la parroquia de la
+        Santa Cruz.
       </p>
 
       <p class="mt-8 flex flex-wrap gap-3">
@@ -436,6 +438,9 @@ export const routeMeta: RouteMeta = {
   `,
 })
 export default class HomePage {
+  protected readonly anyoFundacion = ANYO_FUNDACION;
+  protected readonly horario = HORARIO_REUNIONES;
+
   // Iconos con el trazo de Lucide (ISC).
   protected readonly modalidades = [
     {

@@ -187,6 +187,16 @@ categoria: autorizaciones   # inscripcion | autorizaciones | actividades
 ---
 ```
 
+**Álbum de fotos** — `src/content/albumes/<año>-<actividad>.md`. Sale en Documentos, en «Fotos». Las fotos no se suben a la web: es un enlace a la carpeta de Google Drive.
+
+```markdown
+---
+titulo: Campamento 2026 · Frente al Teja
+descripcion: Todas las fotos del campamento, en la carpeta de Google Drive del grupo.
+enlace: https://drive.google.com/drive/folders/…   # solo https
+---
+```
+
 **Noticia** — `src/content/noticias/<AAAA-MM-DD>-<slug>.md`. No hay página de noticias: las tres últimas salen en la portada con su `resumen` (dos o tres frases) y el cuerpo del `.md` se despliega dentro de la tarjeta con «Leer la noticia». El cuerpo es opcional y no lleva títulos (`#`): ver `.texto-noticia` en `styles.css`.
 
 ```markdown

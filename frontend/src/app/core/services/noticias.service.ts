@@ -5,6 +5,19 @@ import { cargadorDeCuerpos, fecha, leerColeccion, texto, textoOpcional } from '.
 import { esSlugSeccion } from './secciones.service';
 
 /**
+ * Foto de portada de una noticia, solo si trae su descripción. Sin ella la
+ * tarjeta pintaría `alt=""` y el lector de pantalla la daría por decorativa,
+ * sin que nadie se enterase. Así, a quien edita le falta la foto y lo ve.
+ */
+export function fotoDePortada(
+  datos: Record<string, unknown>,
+): Pick<Noticia, 'portada' | 'portadaAlt'> {
+  const portada = textoOpcional(datos['portada']);
+  const portadaAlt = textoOpcional(datos['portadaAlt']);
+  return portada && portadaAlt ? { portada, portadaAlt } : {};
+}
+
+/**
  * Noticias, de `src/content/noticias/*.md`. No hay página de detalle: el
  * frontmatter da la tarjeta de la portada y el cuerpo del `.md` (el texto
  * con estilos y fotos que se escribe en el backoffice) se despliega dentro
@@ -22,8 +35,7 @@ export class NoticiasService {
           fecha: fecha(datos['fecha']),
           resumen: texto(datos['resumen']),
           seccion: esSlugSeccion(seccion) ? seccion : undefined,
-          portada: textoOpcional(datos['portada']),
-          portadaAlt: textoOpcional(datos['portadaAlt']),
+          ...fotoDePortada(datos),
         };
       })
       .filter((noticia) => noticia.fecha !== '')
