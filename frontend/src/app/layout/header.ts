@@ -10,12 +10,13 @@ interface EnlaceNav {
 
 /**
  * Cabecera con la navegación principal. La lista de enlaces es la de
- * `docs/frontend/paginas.md` (máximo 6). El Jota-Joti salió al entrar
- * Calendario y ahora se llega a él desde allí; Contacto salió al entrar
- * Documentos y sigue en el pie. Para meter Noticias habrá que sacar otro.
+ * `docs/frontend/paginas.md` (máximo 6, y está lleno). El Jota-Joti salió al
+ * entrar Calendario y ahora se llega a él desde allí; Contacto ocupa el hueco
+ * que dejó Preinscripción. Para meter otro habrá que sacar uno.
  *
- * «Acceso» (al backoffice) no cuenta como enlace del menú: va aparte, como botón
- * con icono, y lleva a /acceso, la puerta del backoffice (ADR-0003).
+ * «Acceso Responsables» (al backoffice) no cuenta como enlace del menú: va
+ * aparte, como botón con icono, y lleva a /acceso, la puerta del backoffice
+ * (ADR-0003).
  *
  * El botón de tema alterna entre oscuro (por defecto) y claro: cambia
  * data-tema en <html> y lo guarda en localStorage. El primer pintado lo
@@ -38,12 +39,16 @@ interface EnlaceNav {
     <header
       class="border-b-2 border-marca bg-superficie/75 backdrop-blur-md"
     >
+      <!-- Todo en una línea: logo, menú, tema y acceso. Por debajo de lg el
+           menú se pliega tras el botón «Menú» (seis enlaces no caben), y por
+           debajo de sm el nombre del grupo solo lo oye el lector de pantalla
+           para que logo y botones quepan a 320 px. -->
       <div
-        class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4"
+        class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-2 gap-y-4 px-4 py-4 lg:flex-nowrap xl:max-w-6xl"
       >
         <a
           routerLink="/"
-          class="flex items-center gap-3 text-lg font-bold text-marca no-underline hover:underline"
+          class="flex shrink-0 items-center gap-3 text-lg font-bold whitespace-nowrap text-marca no-underline hover:underline"
         >
           <!-- alt vacío: el texto del enlace ya lo nombra -->
           <img
@@ -53,13 +58,13 @@ interface EnlaceNav {
             height="56"
             class="h-14 w-14 rounded-md"
           />
-          Grupo Scout Nadino
+          <span class="max-sm:sr-only">Grupo Scout Nadino</span>
         </a>
 
         <!-- Tema, acceso y botón de menú. En escritorio van al final, a la
              derecha del menú; en móvil, junto al botón para que siempre se
              vean. -->
-        <div class="flex items-center gap-2 md:order-last">
+        <div class="flex shrink-0 items-center gap-2 lg:order-last">
           <!-- Nombre fijo con aria-pressed: el lector anuncia «Modo oscuro,
                activado/desactivado». El icono es el del tema actual: la luna
                gira y se encoge mientras el sol entra, y al revés. -->
@@ -99,16 +104,19 @@ interface EnlaceNav {
             <span class="sr-only">Modo oscuro</span>
           </button>
 
+          <!-- Acceso al backoffice: lleva a /acceso, la puerta (ADR-0003).
+               El texto se ve desde xl; antes solo el icono, con el mismo
+               nombre para el lector de pantalla. -->
           <a
             routerLink="/acceso"
             routerLinkActive="bg-marca text-sobre-marca"
             ariaCurrentWhenActive="page"
-            class="inline-flex items-center gap-2 rounded-full border-2 border-marca px-3 py-2 text-sm font-semibold text-marca no-underline transition-colors duration-300 hover:bg-marca hover:text-sobre-marca"
+            class="inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-full border-2 border-marca px-2.5 text-sm font-semibold whitespace-nowrap text-marca no-underline transition-colors duration-300 hover:bg-marca hover:text-sobre-marca xl:px-3"
             (click)="cerrar()"
           >
             <svg
               viewBox="0 0 24 24"
-              class="h-5 w-5 fill-none stroke-current"
+              class="h-5 w-5 shrink-0 fill-none stroke-current"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -118,13 +126,12 @@ interface EnlaceNav {
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
               <path d="M12 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8" />
             </svg>
-            <span class="max-lg:sr-only">Acceso</span>
-            <span class="sr-only">al backoffice</span>
+            <span class="max-xl:sr-only">Acceso Responsables</span>
           </a>
 
           <button
             type="button"
-            class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca transition-colors hover:bg-marca hover:text-sobre-marca md:hidden"
+            class="rounded border-2 border-marca px-3 py-2 text-sm font-semibold text-marca transition-colors hover:bg-marca hover:text-sobre-marca lg:hidden"
             [attr.aria-expanded]="abierto()"
             aria-controls="menu-principal"
             (click)="alternar()"
@@ -136,11 +143,11 @@ interface EnlaceNav {
         <nav
           id="menu-principal"
           aria-label="Navegación principal"
-          class="w-full max-md:motion-safe:animate-menu-entra md:block md:w-auto"
+          class="w-full max-lg:motion-safe:animate-menu-entra lg:block lg:w-auto"
           [class.hidden]="!abierto()"
         >
           <ul
-            class="m-0 flex list-none flex-col gap-1 p-0 md:flex-row md:items-center md:gap-2"
+            class="m-0 flex list-none flex-col gap-1 p-0 lg:flex-row lg:items-center lg:gap-0.5"
           >
             @for (enlace of enlaces; track enlace.ruta) {
               <li>
@@ -149,7 +156,7 @@ interface EnlaceNav {
                   routerLinkActive="bg-marca-suave font-bold after:scale-x-100"
                   [routerLinkActiveOptions]="{ exact: !!enlace.exacta }"
                   ariaCurrentWhenActive="page"
-                  class="relative block rounded px-3 py-2 text-marca no-underline transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-marca after:transition-transform after:duration-300 hover:bg-marca-suave hover:after:scale-x-100"
+                  class="relative block rounded px-3 py-2 whitespace-nowrap text-marca no-underline lg:px-2.5 transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-marca after:transition-transform after:duration-300 hover:bg-marca-suave hover:after:scale-x-100"
                   (click)="cerrar()"
                 >
                   {{ enlace.texto }}
@@ -191,6 +198,7 @@ export class Header {
     { ruta: '/ramas', texto: 'Ramas' },
     { ruta: '/eventos', texto: 'Calendario' },
     { ruta: '/documentos', texto: 'Documentos' },
+    { ruta: '/contacto', texto: 'Contacto' },
   ];
 
   protected alternarTema(): void {

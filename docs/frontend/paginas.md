@@ -24,13 +24,13 @@ Prioridad: **P0** = imprescindible para lanzar (MVP) · **P1** = justo después 
 
 ## Navegación principal (máx. 6 elementos)
 
-Inicio · Conócenos · Ramas · Calendario · Documentos
+Inicio · Conócenos · Ramas · Calendario · Documentos · Contacto
 
-**Preinscripción** (que iba destacada como botón) está quitada del menú por ahora: está comentada en `layout/header.ts` porque quedaba rara. Se llega desde la portada, Ramas, Conócenos y el footer, y su hueco cuenta como libre para el tope de 6.
+**Preinscripción** (que iba destacada como botón) está quitada del menú por ahora: está comentada en `layout/header.ts` porque quedaba rara. Se llega desde la portada, Ramas, Conócenos y el footer. Su hueco lo ocupa ahora **Contacto**, que volvió al menú el 05/11/2026, así que el menú está **lleno**: si Preinscripción vuelve, algo tiene que salir.
 
-Aparte, fuera del menú y sin contar para el tope: el botón con icono **Acceso**, que lleva a `/acceso` y de ahí al backoffice.
+Aparte, fuera del menú y sin contar para el tope: el botón con icono **Acceso Responsables**, que lleva a `/acceso` y de ahí al backoffice. Logo, menú, tema y acceso van en una sola línea; por debajo de 1024 px el menú se pliega tras el botón «Menú».
 
-Los enlaces legales y los que vayan apareciendo van en el **footer**. Está en el tope de 6, así que **para meter algo hay que sacar algo**: al entrar Calendario (`/eventos`), el Jota-Joti dejó su sitio y ahora se llega a él desde el calendario. Después Documentos entró en lugar de Contacto, que sigue en el footer. Noticias no ocupa hueco: no es una página, sino una sección de la portada.
+Los enlaces legales y los que vayan apareciendo van en el **footer**. Está en el tope de 6, así que **para meter algo hay que sacar algo**: al entrar Calendario (`/eventos`), el Jota-Joti dejó su sitio y ahora se llega a él desde el calendario. Después Documentos entró en lugar de Contacto, que se quedó solo en el footer hasta que volvió al hueco libre de Preinscripción. Noticias no ocupa hueco: no es una página, sino una sección de la portada.
 
 Para comparar, el menú de la web antigua tenía 8 entradas: Inicio · Joti 2025 · Pre-Inscripción · Conócenos · Descargas · Contacto · Calendario · Downloads. `Downloads` era un duplicado de `Descargas`, y un evento de un año concreto no debería ocupar un hueco permanente.
 
