@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
 
-import { CORREO_GRUPO } from '../core/grupo';
+import { CORREO_GRUPO, HORARIO_REUNIONES } from '../core/grupo';
 
 export const routeMeta: RouteMeta = {
   title: 'Contacto · Grupo Scout Nadino',
@@ -30,7 +30,7 @@ export const routeMeta: RouteMeta = {
         Contacto
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-tinta-suave sm:text-xl">
-        Escríbenos o pásate por el local un domingo por la tarde. Si lo que
+        Escríbenos o pásate por el local un sábado de 11:30 a 13:35. Si lo que
         quieres es apuntar a tu
         hijo o hija, es más rápida la
         <a routerLink="/preinscripcion" class="font-bold text-marca">preinscripción</a>.
@@ -87,9 +87,7 @@ export const routeMeta: RouteMeta = {
                   </a>
                 </p>
               } @else {
-                <p class="mt-1 mb-0 text-tinta-suave">
-                  <em>Pendiente de confirmar</em>
-                </p>
+                <p class="mt-1 mb-0 text-tinta first-letter:uppercase">{{ horario }}</p>
               }
             </div>
           </section>
@@ -178,6 +176,7 @@ export const routeMeta: RouteMeta = {
 })
 export default class ContactoPage {
   protected readonly correo = CORREO_GRUPO;
+  protected readonly horario = HORARIO_REUNIONES;
 
   // Iconos con el trazo de Lucide (ISC).
   protected readonly datos = [

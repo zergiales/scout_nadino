@@ -90,9 +90,9 @@ El Sprint 0 (fundaciones) **bloquea todo lo demás** y lo hace una sola persona.
 
 Prioridades: **P0** = MVP (Inicio, Conócenos, Ramas, Preinscripción, Contacto, los cuatro legales y el 404) · **P1** = Noticias, Eventos, Documentos · **P2** = requiere backend (área privada, formulario de contacto real). La tabla de rutas, fuente de datos de cada página y la navegación principal (máx. 6 elementos) están en [`docs/frontend/paginas.md`](docs/frontend/paginas.md).
 
-**Datos ya confirmados:** el correo del grupo, `info@scoutsnadino.es` (en `core/grupo.ts`, que usan Contacto y el pie).
+**Datos ya confirmados** (en `core/grupo.ts`): el correo del grupo, `info@scoutsnadino.es`; el año de fundación, 2011; y el horario de reuniones, todos los sábados de 11:30 a 13:35. Lugares de campamento: Fuente la Teja, Fuente el Berro y la sierra de Gredos.
 
-**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, horario de reuniones, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
+**Datos pendientes del kraal** que bloquean contenido real: colores oficiales del grupo y de cada sección, redes sociales, edades definitivas de cada sección (las del plan no coinciden con las de la web antigua), datos legales del titular, y a dónde deben llegar las preinscripciones.
 
 ## Flujo de trabajo
 

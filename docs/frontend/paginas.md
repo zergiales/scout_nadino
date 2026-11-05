@@ -38,7 +38,7 @@ Para comparar, el menú de la web antigua tenía 8 entradas: Inicio · Joti 2025
 
 Parroquia de la Santa Cruz, Av. de la Constitución 1, 19200 Azuqueca de Henares (Guadalajara). Coordenadas `40.564693, -3.267574`, sacadas del mapa de la web antigua.
 
-El **correo del grupo** es `info@scoutsnadino.es` (confirmado el 25/10/2026): sale como texto y enlace en Contacto y en el pie, no como imagen. Faltan todavía el horario de reuniones y las redes sociales.
+El **correo del grupo** es `info@scoutsnadino.es` (confirmado el 25/10/2026): sale como texto y enlace en Contacto y en el pie, no como imagen. El **horario de reuniones** es todos los sábados de 11:30 a 13:35 (confirmado el 01/11/2026, en `core/grupo.ts`). Faltan todavía las redes sociales.
 
 ## Secciones (confirmar nombres y edades con el kraal)
 
