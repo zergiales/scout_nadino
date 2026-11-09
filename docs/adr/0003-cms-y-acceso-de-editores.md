@@ -97,7 +97,7 @@ El grupo prefiere la pantalla de usuario y contraseña a un botón. Vuelve, con 
 - **Hoy es una puerta, no un login.** Valida el formato de los campos y manda a `/backoffice/index.html`; no comprueba la contraseña, porque una web estática no puede hacerlo. Quien protege es la cuenta de GitHub que pide el backoffice. La propia pantalla lo dice, para no dar falsa seguridad, y **hay dos logins** hasta la fase 3.
 - **Preparada para la fase 3.** La página no decide nada: pregunta a `AccesoService` (`core/services/acceso.service.ts`), que hoy responde siempre que sí. Ya sabe mostrar «usuario o contraseña incorrectos» cuando el servicio diga que no, así que en la fase 3 solo cambia el servicio.
 
-**Cómo quedaría en la fase 3**, para que entren con un usuario de nuestra base de datos y un solo login:
+**Cómo quedaría en la fase 3**, para que entren con un usuario de nuestra base de datos y un solo login (desarrollado en el [ADR-0004](0004-servicio-de-usuarios.md)):
 
 1. El monitor escribe usuario y contraseña en `/acceso`. `AccesoService` llama a `auth-service`, que los comprueba contra la base de datos y abre sesión (cookie `HttpOnly`).
 2. Se le manda al backoffice. Sveltia sigue necesitando un token de GitHub para publicar, pero en vez de pedírselo a GitHub se lo pide a **nuestro** `auth-service`: es el mismo protocolo del autenticador OAuth (`base_url` en `config.yml`), solo que lo atiende nuestro servidor.
