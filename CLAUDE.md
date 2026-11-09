@@ -43,7 +43,7 @@ Tres fases, con la fase 1 en curso:
 
 1. **Web pública estática** — Angular 22 + Analog prerenderizado a HTML, contenido en Markdown bajo `frontend/src/content`, hosting estático gratuito (Cloudflare Pages/Netlify).
 2. **CMS Git** sobre ese mismo Markdown, para que el kraal edite sin PRs. El ADR-0001 y el plan de trabajo dicen Decap, pero el [ADR-0003](docs/adr/0003-cms-y-acceso-de-editores.md) eligió **Sveltia** (misma `config.yml`; Decap queda de plan B).
-3. **Backend** Spring Boot 4 + Java 25, Maven multimódulo: `auth-service` (OAuth2/JWT para monitores) y API de inscripciones/área privada.
+3. **Backend** Spring Boot 4 + Java 25 (decisión del grupo, no se discute), Maven multimódulo: **un solo servicio**, `auth-service`, con los usuarios del kraal en PostgreSQL, sesión en cookie y un token de GitHub de una hora para que el backoffice publique sin que el monitor tenga cuenta de GitHub ([ADR-0004](docs/adr/0004-servicio-de-usuarios.md)). Inscripciones y área privada entrarán como módulos de ese mismo servicio.
 
 La decisión clave que explica casi todo el diseño: **la capa de servicios de `core/services` es la única frontera con el origen de datos.** Hoy esos servicios leen Markdown de `src/content`; en la fase 3 llamarán a la API de Spring Boot con `HttpClient`. Por eso ningún componente ni página lee contenido directamente — siempre `inject(NoticiasService)` y similares. Si una página importa contenido por su cuenta, el cambio de fase deja de ser local y el diseño se rompe.
 

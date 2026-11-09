@@ -1,0 +1,15 @@
+# Solo para desarrollo: PostgreSQL en local. La contraseña no sirve fuera de tu equipo.
+services:
+  postgres:
+    image: 'postgres:18'
+    environment:
+      - 'POSTGRES_DB=nadino'
+      - 'POSTGRES_USER=nadino'
+      - 'POSTGRES_PASSWORD=secret'
+    ports:
+      - '5432'
+    volumes:
+      - 'datos-postgres:/var/lib/postgresql'
+
+volumes:
+  datos-postgres:
